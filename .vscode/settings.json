@@ -1,0 +1,11 @@
+{
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.renderControlCharacters": true,
+  "[typescript]": {
+      "editor.formatOnSave": false,
+      "editor.formatOnPaste": false
+  },
+  "tslint.enable": true,
+  "tslint.run": "onType"
+}
