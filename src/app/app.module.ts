@@ -1,15 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatSliderModule,
-  MatFormFieldModule, MatInputModule } from '@angular/material';
+  MatFormFieldModule, MatInputModule, MatSidenavModule,
+  MatListModule } from '@angular/material';
+import { MenuComponent } from './components/menu.component';
+import { ContentComponent } from './components/content.component';
+import { MainComponent } from './components/main.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    MenuComponent,
+    ContentComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -18,10 +23,12 @@ import { MatButtonModule, MatCheckboxModule, MatSliderModule,
     MatSliderModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatSidenavModule,
     MatInputModule,
+    MatListModule,
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [MainComponent]
 })
 export class AppModule { }
