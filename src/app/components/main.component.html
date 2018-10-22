@@ -1,6 +1,13 @@
 
+<mat-toolbar id="header">
+  <mat-toolbar-row><span>Raru TODO</span>
+    <div class="right">
+      <button mat-raised-button="mat-raised-button">TODOの追加</button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
 <mat-sidenav-container id="body-container">
-  <mat-sidenav mode="side" opened="true" [fixedInViewport]="true">
+  <mat-sidenav mode="side" opened="true">
     <content-menu></content-menu>
   </mat-sidenav>
   <mat-sidenav-content>
