@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatSliderModule,
-  MatFormFieldModule, MatInputModule, MatSidenavModule,
+  MatFormFieldModule, MatInputModule, MatSidenavModule, MatToolbarModule,
   MatListModule } from '@angular/material';
 import { MenuComponent } from './components/menu.component';
 import { ContentComponent } from './components/content.component';
@@ -26,6 +26,7 @@ import { MainComponent } from './components/main.component';
     MatSidenavModule,
     MatInputModule,
     MatListModule,
+    MatToolbarModule,
     AppRoutingModule
   ],
   providers: [],
