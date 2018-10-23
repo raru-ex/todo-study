@@ -5,16 +5,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatSliderModule,
   MatFormFieldModule, MatInputModule, MatSidenavModule, MatToolbarModule,
   MatListModule } from '@angular/material';
-import { MenuComponent } from './components/menu.component';
-import { ContentComponent } from './components/content.component';
-import { MainComponent } from './components/main.component';
+import { UiMenuComponent, UiContentComponent, PageMainComponent } from '@app/components';
+import { AppComponent } from '@app/app.component';
+import { ErrorNotFoundComponent } from '@app/error';
 
 
 @NgModule({
   declarations: [
-    MenuComponent,
-    ContentComponent,
-    MainComponent
+    AppComponent,
+    UiMenuComponent,
+    UiContentComponent,
+    PageMainComponent,
+    ErrorNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +32,6 @@ import { MainComponent } from './components/main.component';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [MainComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
