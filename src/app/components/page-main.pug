@@ -2,7 +2,7 @@ mat-toolbar#header
   mat-toolbar-row
     span Raru TODO
     .right
-      button(mat-raised-button) TODOの追加
+      button(mat-raised-button, (click)="openAddModal()") TODOの追加
 mat-sidenav-container#body-container
   mat-sidenav(mode="side", opened="true")
     ui-menu

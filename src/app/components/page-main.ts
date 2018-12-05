@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { TodoAddModalComponemt } from '@app/components/modal';
 
 @Component({
   selector: 'page-main',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageMainComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
   }
 
+  openAddModal() {
+    const dialogRef = this.dialog.open(TodoAddModalComponemt, {
+      width: '400px',
+      data: { title: "TODOの新規追加" }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('todo add modal is closed');
+    })
+  }
 }
