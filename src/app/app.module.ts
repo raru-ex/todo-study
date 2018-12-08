@@ -9,7 +9,7 @@ import { UiMenuComponent, UiContentComponent, PageMainComponent } from '@app/com
 import { TodoAddModalComponemt } from '@app/components/modal';
 import { AppComponent } from '@app/app.component';
 import { ErrorNotFoundComponent } from '@app/error';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,9 @@ import { ErrorNotFoundComponent } from '@app/error';
     MatListModule,
     MatToolbarModule,
     MatDialogModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   entryComponents: [
     TodoAddModalComponemt

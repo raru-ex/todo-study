@@ -1,0 +1,13 @@
+div(mat-dialog-title)
+  span TODOの新規追加
+mat-dialog-content
+  form([formGroup]='todoForm')
+    mat-form-field
+      input(matInput, placeholder='TODO title', formControlName='name')
+    mat-form-field
+      textarea(matInput placeholder='TODO Detail', formControlName='content')
+
+mat-dialog-actions
+  button(mat-stroked-button, mat-dialog-close) 閉じる
+  button(mat-stroked-button, type='submit', (click)='onClickSubmit()') 登録
+
