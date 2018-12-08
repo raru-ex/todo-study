@@ -8,7 +8,6 @@ import { TodoAddModalComponemt } from '@app/components/modal';
   styleUrls: ['./page-main.scss']
 })
 export class PageMainComponent implements OnInit {
-
   constructor(
     public dialog: MatDialog
   ) {}
@@ -16,13 +15,16 @@ export class PageMainComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * TODOの新規追加ダイアログ表示
+   */
   openAddModal() {
     const dialogRef = this.dialog.open(TodoAddModalComponemt, {
       width: '400px',
       data: { title: "TODOの新規追加" }
     })
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(_ => {
       console.log('todo add modal is closed');
     })
   }
