@@ -5,6 +5,8 @@ mat-toolbar#header
       button(mat-raised-button, (click)="openAddModal()") TODOの追加
 mat-sidenav-container#body-container
   mat-sidenav(mode="side", opened="true")
-    ui-menu
+    ui-menu(
+      [rows] = '(state$|async).todos'
+    )
   mat-sidenav-content
     ui-content

@@ -1,4 +1,4 @@
-import { State, StateContext, Action } from '@ngxs/store'
+import { State, StateContext, Action, Selector } from '@ngxs/store'
 import { TodoAction } from './todo.actions'
 import { Todo } from '@shared/model'
 
@@ -39,5 +39,10 @@ export class TodoState {
       ...state,
       ...(CompanionTodoState.TEST_STATE)
     })
+  }
+
+  @Selector()
+  static getState(state: TodoStateModel) {
+    return state
   }
 }
