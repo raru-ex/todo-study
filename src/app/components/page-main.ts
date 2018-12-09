@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs'
 import { MatDialog } from '@angular/material';
 import { TodoAddModalComponemt } from '@app/components/modal';
-import { Store } from '@ngxs/store'
-import { TodoAction } from '@shared/state'
+import { Store, Select } from '@ngxs/store'
+import { TodoAction, TodoState } from '@shared/state'
 
 @Component({
   selector: 'page-main',
@@ -10,6 +11,8 @@ import { TodoAction } from '@shared/state'
   styleUrls: ['./page-main.scss']
 })
 export class PageMainComponent implements OnInit {
+  @Select(TodoState.getState) state$: Observable<TodoStateModel>
+
   constructor(
     public dialog: MatDialog,
     private store: Store,
