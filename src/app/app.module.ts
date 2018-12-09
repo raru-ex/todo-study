@@ -10,6 +10,8 @@ import { TodoAddModalComponemt } from '@app/components/modal';
 import { AppComponent } from '@app/app.component';
 import { ErrorNotFoundComponent } from '@app/error';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { TodoState } from '@shared/state';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxsModule.forRoot([
+      TodoState
+    ])
   ],
   entryComponents: [
     TodoAddModalComponemt

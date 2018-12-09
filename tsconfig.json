@@ -4,7 +4,8 @@
     "baseUrl": "./",
     "importHelpers": true,
     "paths": {
-      "@app/*": ["src/app/*"]
+      "@app/*": ["src/app/*"],
+      "@shared/*": ["src/shared/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { TodoAddModalComponemt } from '@app/components/modal';
+import { Store } from '@ngxs/store'
+import { TodoAction } from '@shared/state'
 
 @Component({
   selector: 'page-main',
@@ -9,10 +11,12 @@ import { TodoAddModalComponemt } from '@app/components/modal';
 })
 export class PageMainComponent implements OnInit {
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store,
   ) {}
 
   ngOnInit() {
+    this.store.dispatch(new TodoAction.SelectAll())
   }
 
   /**
