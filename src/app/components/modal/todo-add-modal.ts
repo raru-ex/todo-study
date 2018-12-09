@@ -31,8 +31,8 @@ export class TodoAddModalComponemt implements OnInit {
   onClickSubmit() {
     console.log('data is submitted')
     if(this.todoForm.dirty) {
-      console.log(this.todoForm.get('name').value)
-      console.log(this.todoForm.get('content').value)
+      console.log(this.todoForm.get('name'))
+      console.log(this.todoForm.get('content'))
     }
   }
 }
