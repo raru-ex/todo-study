@@ -7,10 +7,10 @@ export interface TodoStateModel {
   selectedIndex: number
 }
 
-class CompanionTodoState {
-  static readonly UNIQUE_NAME = 'TodoStateModel'
+export module CompanionTodoState {
+  export const UNIQUE_NAME = 'TodoStateModel'
 
-  public static DEFAULT_STATE = {
+  export const DEFAULT_STATE = {
     name: CompanionTodoState.UNIQUE_NAME,
     defaults: {
       todos: [],
@@ -18,7 +18,7 @@ class CompanionTodoState {
     }
   }
 
-  public static TEST_STATE: TodoStateModel = {
+  export const TEST_STATE: TodoStateModel = {
     todos: [
       {name: 'test1', content: 'content1'},
       {name: 'test2', content: 'content2'},

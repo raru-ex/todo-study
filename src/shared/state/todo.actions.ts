@@ -1,9 +1,9 @@
-export class TodoAction {
-  static readonly prefix = '[TODO] '
-  static readonly SELECT_ALL = TodoAction.prefix + 'selectAll'
+export module TodoAction {
+  export const PREFIX = '[TODO] '
+  export const SELECT_ALL = PREFIX + 'selectAll'
 
-  public static SelectAll = class {
-    static readonly type = TodoAction.SELECT_ALL
+  export class SelectAll {
+    static readonly type = SELECT_ALL
     constructor() {}
   }
 }
