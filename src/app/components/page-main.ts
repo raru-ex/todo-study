@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { TodoAddModalComponemt } from '@app/components/modal';
 import { Store, Select } from '@ngxs/store'
 import { TodoAction, TodoState, TodoStateModel } from '@shared/state'
+import { Todo } from '@shared/model'
 
 @Component({
   selector: 'page-main',
@@ -11,7 +12,8 @@ import { TodoAction, TodoState, TodoStateModel } from '@shared/state'
   styleUrls: ['./page-main.scss']
 })
 export class PageMainComponent implements OnInit {
-  @Select(TodoState.getState) state$: Observable<TodoStateModel>
+  @Select(TodoState.getSelected) selectedState$: Observable<TodoStateModel>
+  @Select(TodoState.getTodos) todos$: Observable<Todo[]>
 
   constructor(
     public dialog: MatDialog,
@@ -19,7 +21,7 @@ export class PageMainComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(new TodoAction.SelectAll())
+    this.store.dispatch(new TodoAction.Load())
   }
 
   /**

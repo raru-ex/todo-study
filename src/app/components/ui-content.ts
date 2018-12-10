@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Todo } from '@shared/model'
 
 @Component({
   selector: 'ui-content',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ui-content.scss']
 })
 export class UiContentComponent implements OnInit {
+  @Input('todo') todo: Todo
 
   constructor() { }
 
