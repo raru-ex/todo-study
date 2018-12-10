@@ -1,4 +1,4 @@
 
 <mat-list *ngFor="let todo of todos">
-  <mat-list-item>{{todo.name}}</mat-list-item>
+  <mat-list-item (click)="onClickMenuItem(todo)">{{todo.name}}</mat-list-item>
 </mat-list>

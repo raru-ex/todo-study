@@ -6,7 +6,9 @@ mat-toolbar#header
 mat-sidenav-container#body-container
   mat-sidenav(mode="side", opened="true")
     ui-menu(
-      [rows] = '(state$|async).todos'
+      [rows] = "todos$|async"
     )
   mat-sidenav-content
-    ui-content
+    ui-content(
+      [todo] = "selectedState$|async"
+    )

@@ -1,9 +1,16 @@
+import { TodoStateModel } from '@shared/state'
+
 export module TodoAction {
   export const PREFIX = '[TODO] '
-  export const SELECT_ALL = PREFIX + 'selectAll'
+  export const LOAD = PREFIX + 'Load'
+  export const SELECT = PREFIX + 'Select'
 
-  export class SelectAll {
-    static readonly type = SELECT_ALL
-    constructor() {}
+  export class Load {
+    static readonly type = LOAD
+  }
+
+  export class Select {
+    static readonly type = SELECT
+    constructor(public todo: TodoStateModel) {}
   }
 }
