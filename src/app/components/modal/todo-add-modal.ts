@@ -1,11 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
-export interface TodoAddData {
-  name: string
-  content: string
-}
+import { Store } from '@ngxs/store'
+import { UnstoredTodo } from '@shared/model'
+import { TodoAction } from '@shared/state'
 
 @Component({
   templateUrl: './todo-add-modal.html',
@@ -19,7 +17,8 @@ export class TodoAddModalComponemt implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<TodoAddModalComponemt>,
-    @Inject(MAT_DIALOG_DATA) public data: TodoAddData
+    @Inject(MAT_DIALOG_DATA) public data: UnstoredTodo,
+    private store: Store
   ) { }
 
   ngOnInit() {
@@ -29,10 +28,17 @@ export class TodoAddModalComponemt implements OnInit {
    * 登録ボタン押下時の処理
    */
   onClickSubmit() {
-    console.log('data is submitted')
-    if(this.todoForm.dirty) {
-      console.log(this.todoForm.get('name'))
-      console.log(this.todoForm.get('content'))
+    const name = this.todoForm.get('name')
+    const content = this.todoForm.get('content')
+
+    //TODO !!name等をしないとコンパイル時にnull可能性有りで落ちる。lintをゆるくしたい
+    if(this.todoForm.valid && !!name && !!content) {
+      console.log('create new todo')
+      this.store.dispatch(new TodoAction.Create(<UnstoredTodo>{
+        name: name.value,
+        content: content.value
+      }))
+      this.dialogRef.close()
     }
   }
 }
