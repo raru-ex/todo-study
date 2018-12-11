@@ -61,4 +61,18 @@ export class TodoState {
       selectedIndex: selectedIndex
     })
   }
+
+  @Action(TodoAction.Create)
+  create(ctx: StateContext<TodoStateModel>, action: TodoAction.Create) {
+    const currentState = ctx.getState()
+    const unstoredTodo = action.unstoredTodo
+    console.log(action)
+    const id = currentState.todos.length + 1
+    currentState.todos.push({
+      id: id,
+      name: unstoredTodo.name,
+      content: unstoredTodo.content
+    })
+    ctx.setState(currentState)
+  }
 }
