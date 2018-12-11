@@ -37,7 +37,7 @@ export class TodoState {
   }
 
   @Selector()
-  static getSelected(state: TodoStateModel): TodoStateModel {
+  static getSelected(state: TodoStateModel): Todo {
     return state.todos[state.selectedIndex]
   }
 
