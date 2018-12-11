@@ -18,7 +18,7 @@ export class UiMenuComponent implements OnInit {
   ngOnInit() {
   }
 
-  onClickMenuItem(todo: TodoStateModel) {
+  onClickMenuItem(todo: Todo) {
     console.log(todo)
     this.store.dispatch(new TodoAction.Select(todo))
   }
