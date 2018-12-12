@@ -1,10 +1,10 @@
-mat-toolbar#header
+mat-toolbar#header(color="primary")
   mat-toolbar-row
     span Raru TODO
     .right
       button(mat-raised-button, (click)="openAddModal()") TODOの追加
-mat-sidenav-container#body-container
-  mat-sidenav(mode="side", opened="true")
+mat-sidenav-container
+  mat-sidenav.sidebar(mode="side", opened="true")
     ui-menu(
       [rows] = "todos$|async"
     )
