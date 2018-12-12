@@ -1,11 +1,18 @@
-#header {
-  .right {
-    text-align: right;
-    width: 100%;
+:host {
+  #header {
+    .right {
+      text-align: right;
+      width: 100%;
+    }
   }
-}
-#body-container {
-  mat-sidenav {
-    width: 200px;
+
+  .sidebar {
+    min-width: 200px;
+    width: 20vw;
+    border: solid 1px #E0E0E0;
+  }
+
+  mat-sidenav-content {
+    height: 100vw;
   }
 }

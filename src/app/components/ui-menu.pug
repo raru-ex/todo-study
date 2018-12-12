@@ -1,2 +1,2 @@
-mat-list(*ngFor='let todo of todos')
-  mat-list-item((click)="onClickMenuItem(todo)") {{todo.name}}
+mat-list
+  mat-list-item.item(*ngFor='let todo of todos', (click)="onClickMenuItem(todo)") {{todo.name}}
