@@ -1,0 +1,23 @@
+ :host {
+  mat-list {
+    padding-top: 0;
+
+    .item {
+      border: solid #E0E0E0;
+      border-width: 0 1px 1px 0;
+      cursor: pointer;
+    }
+    .item:hover {
+      background-color: #E0E0E0;
+      cursor: pointer;
+    }
+    .item:active {
+      background-color: #BDBDBD;
+    }
+
+    .active {
+      background-color: #E1F5FE;
+    }
+  }
+}
+

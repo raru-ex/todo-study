@@ -9,7 +9,8 @@ import { TodoAction } from '@shared/state'
   styleUrls: ['./ui-menu.scss']
 })
 export class UiMenuComponent implements OnInit {
-  @Input('rows') todos: Todo[]
+  @Input('rows') todos:       Todo[]
+  @Input()       selectedId : number
 
   constructor(
     private store: Store
@@ -23,4 +24,7 @@ export class UiMenuComponent implements OnInit {
     this.store.dispatch(new TodoAction.Select(todo))
   }
 
+  isActive(todo: Todo) {
+    return todo.id === this.selectedId
+  }
 }
