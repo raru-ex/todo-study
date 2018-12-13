@@ -1,2 +1,6 @@
 mat-list
-  mat-list-item.item(*ngFor='let todo of todos', (click)="onClickMenuItem(todo)") {{todo.name}}
+  mat-list-item.item(
+    *ngFor="let todo of todos",
+    [ngClass]="{ 'active': isActive(todo)}",
+    (click)="onClickMenuItem(todo)"
+  ) {{ todo.name }}
