@@ -44,3 +44,5 @@ project/project
 project/target
 target
 tmp
+.ensime*
+ensime*
