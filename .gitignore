@@ -45,4 +45,5 @@ project/target
 target
 tmp
 .ensime*
-ensime*
+*.iml
+.gradle/
