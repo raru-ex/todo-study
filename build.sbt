@@ -10,18 +10,19 @@ scalaVersion := "2.12.7"
 
 libraryDependencies += guice
 libraryDependencies ++= Seq(
+  jdbc,
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
   "com.typesafe.slick" %% "slick" % "3.2.3",
+  "com.typesafe.slick" %% "slick-codegen" % "3.2.3",
   "org.slf4j" % "slf4j-nop" % "1.6.4",
-  "com.typesafe.slick" %% "slick-hikaricp" % "3.2.3"
+  "com.typesafe.slick" %% "slick-hikaricp" % "3.2.3",
+  "mysql" % "mysql-connector-java" % "8.0.13"
 )
 
-// Add Circe
-libraryDependencies ++= Seq(
-  "io.circe" %% "circe-core",
-  "io.circe" %% "circe-generic",
-  "io.circe" %% "circe-parser"
-).map(_ % circeVersion)
+// Add SBT Command
+lazy val slickCodeGen = taskKey[Unit]("Execute Slick CodeGen")
+slickCodeGen := (runMain in Compile).toTask(" net.syrup16g.todo.db.SlickCodeGenerator").value
+
 
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "net.syrup16g.controllers._"
