@@ -7,11 +7,25 @@ object SlickCodeGenerator extends App {
   SourceCodeGenerator.run(
     profile = "slick.jdbc.MySQLProfile",
     jdbcDriver = "com.mysql.cj.jdbc.Driver",
-    url = "jdbc:mysql://127.0.0.1/todo",
+    url = "jdbc:mysql://localhost:3306/todo",
     outputDir = "./output",
     pkg = "net.syrup16g.todo.model.db",
     user = Some("todo"),
     password = Some("password"),
     ignoreInvalidDefaults = true
   )
+
+  /*
+  SourceCodeGenerator.main(
+    Array(
+      "slick.jdbc.MySQLProfile",
+      "com.mysql.cj.jdbc.Driver",
+      "jdbc:mysql://127.0.0.1:3306/todo",
+      "./output",
+      "net.syrup16g.todo.model.db",
+      "todo",
+      "password"
+    )
+  )
+  */
 }
