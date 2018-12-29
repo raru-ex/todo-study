@@ -4,7 +4,6 @@ organization := "net.syrup16g"
 version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
-val circeVersion = "0.10.1"
 
 scalaVersion := "2.12.7"
 
