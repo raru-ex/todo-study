@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick" % "3.2.3",
   "com.typesafe.slick" %% "slick-codegen" % "3.2.3",
   "com.typesafe.slick" %% "slick-hikaricp" % "3.2.3",
-  "mysql" % "mysql-connector-java" % "8.0.13"
+  "mysql" % "mysql-connector-java" % "6.0.6"
 )
 
 // Add SBT Command
