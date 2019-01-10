@@ -47,3 +47,4 @@ tmp
 .ensime*
 *.iml
 .gradle/
+/output
