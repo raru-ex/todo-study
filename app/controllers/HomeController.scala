@@ -1,4 +1,4 @@
-package controllers
+package net.syrup16g.todo.controllers
 
 import javax.inject._
 import play.api._
