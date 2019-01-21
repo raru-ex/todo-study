@@ -5,7 +5,7 @@
     "build:pug": "pug src/app --pretty ",
     "watch:pug": "pug src/app --watch --pretty ",
     "ng": "ng",
-    "start": "yarn run watch:pug & ng serve --port 5555",
+    "start": "yarn run watch:pug & ng serve --port=5555 --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

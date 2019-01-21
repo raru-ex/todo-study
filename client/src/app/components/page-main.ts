@@ -13,7 +13,7 @@ import { Todo } from '@shared/model'
 })
 export class PageMainComponent implements OnInit {
   @Select(TodoState.getSelected) selectedState$: Observable<TodoStateModel>
-  @Select(TodoState.getTodos) todos$: Observable<Todo[]>
+  @Select(TodoState.getTodos)    todos$: Observable<Todo[]>
 
   constructor(
     public dialog: MatDialog,
