@@ -1,2 +1,4 @@
 
-<div class="content">{{ todo.content }}</div>
+<ng-template *ngIf="!!todo">
+  <div class="content">{{ todo.content }}</div>
+</ng-template>

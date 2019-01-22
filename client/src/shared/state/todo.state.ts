@@ -1,12 +1,12 @@
 import { State, StateContext, Action, Selector } from '@ngxs/store'
 import { TodoAction } from './todo.actions'
-import { Todo } from '@shared/model'
-import {HttpClient} from "@angular/common/http";
-import {tap} from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { tap } from "rxjs/operators";
+import { Todo } from '../model'
 
 export interface TodoStateModel {
   todos: Todo[]
-  selectedIndex: number
+  selectedId: number
 }
 
 export module CompanionTodoState {
@@ -16,7 +16,7 @@ export module CompanionTodoState {
     name: CompanionTodoState.UNIQUE_NAME,
     defaults: {
       todos: [],
-      selectedIndex: -1
+      selectedId: -1
     }
   }
 
@@ -30,15 +30,15 @@ export class TodoState {
   constructor(private http: HttpClient) {}
 
   @Selector()
-  static getTodos(state: TodoStateModel): Todo[] {
-    return state.todos
+  static getState(state: TodoStateModel): TodoStateModel {
+    console.log("called get state ")
+    return state
   }
 
   @Selector()
-  static getSelected(state: TodoStateModel): Todo {
-    console.log("============ called get selected ================")
-    console.log(state.todos[state.selectedIndex])
-    return state.todos[state.selectedIndex]
+  static getSelected(state: TodoStateModel): Todo | undefined {
+    console.log("called get selected")
+    return state.todos.find(todo => todo.id === state.selectedId)
   }
 
   @Action(TodoAction.Load)
@@ -46,11 +46,11 @@ export class TodoState {
     //TODO: loadの結果取得前によばれてる
     console.log("============ called load ================")
     return this.http.get(CompanionTodoState.API.LOAD).pipe(
-      tap(data => {
+      tap((data: {rows: Todo[]}) => {
         console.log(data)
-        ctx.patchState({
+        ctx.setState({
             "todos": data.rows,
-            "selectedIndex": 1
+            "selectedId": 1
           }
         )
       })
@@ -59,13 +59,8 @@ export class TodoState {
 
   @Action(TodoAction.Select)
   select(ctx: StateContext<TodoStateModel>, action: TodoAction.Select) {
-    const currentState = ctx.getState()
-    const todo = action.todo
-    const selectedIndex = currentState.todos.findIndex(item => item.id === todo.id)
-    console.log(selectedIndex)
-    console.log(todo)
     ctx.patchState({
-      selectedIndex: selectedIndex
+      selectedId: action.payload.id
     })
   }
 

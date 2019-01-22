@@ -8,9 +8,9 @@
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav class="sidebar" mode="side" opened="true">
-    <ui-menu [rows]="todos$|async" [selectedId]="(selectedState$|async).id"></ui-menu>
+    <ui-menu [state]="state$|async"></ui-menu>
   </mat-sidenav>
   <mat-sidenav-content>
-    <ui-content [todo]="selectedState$|async"></ui-content>
+    <ui-content [todo]="selected$|async"></ui-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
