@@ -3,7 +3,7 @@ import { Observable } from 'rxjs'
 import { MatDialog } from '@angular/material';
 import { TodoAddModalComponemt } from '@app/components/modal';
 import { Store, Select } from '@ngxs/store'
-import { TodoAction, TodoState, TodoStateModel } from '@shared/state'
+import { TodoAction, TodoState } from '@shared/state'
 import {Todo} from "@shared/model";
 
 @Component({
@@ -12,7 +12,7 @@ import {Todo} from "@shared/model";
   styleUrls: ['./page-main.scss']
 })
 export class PageMainComponent implements OnInit {
-  @Select(TodoState.getState)    state$: Observable<TodoStateModel>
+  @Select(TodoState.getRows)    rows$: Observable<Todo[]>
   @Select(TodoState.getSelected) selected$: Observable<Todo>
 
   constructor(

@@ -1,6 +1,6 @@
-mat-list(*ngIf="!!state.rows")
+mat-list(*ngIf="rows.length > 0")
   mat-list-item.item(
-    *ngFor="let todo of state.todos",
+    *ngFor="let todo of rows",
     [ngClass]="{ 'active': isActive(todo)}",
     (click)="onClickMenuItem(todo)"
   ) {{ todo.name }}

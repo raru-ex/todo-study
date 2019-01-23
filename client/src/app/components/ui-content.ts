@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input } from '@angular/core';
 import { Todo } from '@shared/model'
 
 @Component({
@@ -7,11 +7,10 @@ import { Todo } from '@shared/model'
   styleUrls: ['./ui-content.scss']
 })
 export class UiContentComponent implements OnInit {
-  @Input('todo') todo: Todo
+  @Input() todo: Todo
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }

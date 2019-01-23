@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Todo } from '@shared/model'
-import {TodoAction, TodoStateModel} from '@shared/state'
+import {TodoAction} from '@shared/state'
 
 @Component({
   selector: 'ui-menu',
@@ -9,7 +9,8 @@ import {TodoAction, TodoStateModel} from '@shared/state'
   styleUrls: ['./ui-menu.scss']
 })
 export class UiMenuComponent implements OnInit {
-  @Input() state: TodoStateModel
+  @Input() rows: Todo[]
+  @Input() selectedId: number
 
   constructor(
     private store: Store
@@ -24,6 +25,6 @@ export class UiMenuComponent implements OnInit {
   }
 
   isActive(todo: Todo) {
-    return todo.id === this.state.selectedId
+    return todo.id === this.selectedId
   }
 }
