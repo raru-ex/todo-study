@@ -1,4 +1,4 @@
 
-<mat-list *ngIf="!!state.rows">
-  <mat-list-item class="item" *ngFor="let todo of state.todos" [ngClass]="{ 'active': isActive(todo)}" (click)="onClickMenuItem(todo)">{{ todo.name }}</mat-list-item>
+<mat-list *ngIf="rows.length &gt; 0">
+  <mat-list-item class="item" *ngFor="let todo of rows" [ngClass]="{ 'active': isActive(todo)}" (click)="onClickMenuItem(todo)">{{ todo.name }}</mat-list-item>
 </mat-list>

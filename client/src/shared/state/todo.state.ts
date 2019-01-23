@@ -36,6 +36,11 @@ export class TodoState {
   }
 
   @Selector()
+  static getRows(state: TodoStateModel): Todo[] {
+    return state.todos
+  }
+
+  @Selector()
   static getSelected(state: TodoStateModel): Todo | undefined {
     console.log("called get selected")
     return state.todos.find(todo => todo.id === state.selectedId)
