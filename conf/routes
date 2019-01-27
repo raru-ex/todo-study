@@ -5,6 +5,7 @@
 
 # An example controller showing a sample home page
 GET     /api/v1/todo        net.syrup16g.todo.controllers.TodoController.index
+POST    /api/v1/todo        net.syrup16g.todo.controllers.TodoController.create
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

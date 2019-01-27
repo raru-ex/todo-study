@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatSliderModule,
+import {
+  MatButtonModule, MatCheckboxModule, MatSliderModule,
   MatFormFieldModule, MatInputModule, MatSidenavModule, MatToolbarModule,
-  MatListModule, MatDialogModule } from '@angular/material';
+  MatListModule, MatDialogModule, MatSnackBarModule
+} from '@angular/material';
 import { UiMenuComponent, UiContentComponent, PageMainComponent } from '@app/components';
 import { TodoAddModalComponemt } from '@app/components/modal';
 import { AppComponent } from '@app/app.component';
@@ -37,6 +39,7 @@ import { HttpClientModule } from "@angular/common/http";
     MatListModule,
     MatToolbarModule,
     MatDialogModule,
+    MatSnackBarModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
