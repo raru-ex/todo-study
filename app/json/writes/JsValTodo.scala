@@ -1,6 +1,7 @@
-package net.syrup16g.todo.json
+package net.syrup16g.todo.json.writes
 
-import play.api.libs.json.{JsValue, Json, Writes}
+import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
 case class JsValTodo(
   id: Long,

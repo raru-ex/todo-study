@@ -21,7 +21,8 @@ export module CompanionTodoState {
   }
 
   export const API = {
-    LOAD: 'api/v1/todo'
+    LOAD: 'api/v1/todo',
+    CREATE: 'api/v1/todo'
   }
 }
 
@@ -48,7 +49,6 @@ export class TodoState {
 
   @Action(TodoAction.Load)
   load(ctx: StateContext<TodoStateModel>) {
-    //TODO: loadの結果取得前によばれてる
     console.log("============ called load ================")
     return this.http.get(CompanionTodoState.API.LOAD).pipe(
       tap((data: {rows: Todo[]}) => {
@@ -56,6 +56,20 @@ export class TodoState {
         ctx.setState({
             "todos": data.rows,
             "selectedId": 1
+          }
+        )
+      })
+    )
+  }
+
+  @Action(TodoAction.Reload)
+  reload(ctx: StateContext<TodoStateModel>) {
+    console.log("============ called Reload ================")
+    return this.http.get(CompanionTodoState.API.LOAD).pipe(
+      tap((data: {rows: Todo[]}) => {
+        console.log(data)
+        ctx.patchState({
+            "todos": data.rows
           }
         )
       })
@@ -71,15 +85,14 @@ export class TodoState {
 
   @Action(TodoAction.Create)
   create(ctx: StateContext<TodoStateModel>, action: TodoAction.Create) {
-    const currentState = ctx.getState()
-    const unstoredTodo = action.unstoredTodo
-    console.log(action)
-    const id = currentState.todos.length + 1
-    currentState.todos.push({
-      id: id,
-      name: unstoredTodo.name,
-      content: unstoredTodo.content
-    })
-    ctx.setState(currentState)
+    const body = { name: action.payload.name, content: action.payload.content}
+    return this.http.post(
+      CompanionTodoState.API.CREATE,
+      body
+    ).pipe(
+      tap(_ => {
+        ctx.dispatch(new TodoAction.Reload())
+      })
+    )
   }
 }
