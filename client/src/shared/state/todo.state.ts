@@ -41,7 +41,7 @@ export class TodoState {
   }
 
   @Selector()
-  static getSelected(state: TodoStateModel): Todo | undefined {
+  static getSelected(state: TodoStateModel): Todo {
     console.log("called get selected")
     return state.todos.find(todo => todo.id === state.selectedId)
   }
