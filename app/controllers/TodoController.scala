@@ -58,7 +58,7 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
           for {
             _ <- db.run(
               // Todoの作り方間違ってる
-              (tableQuery returning tableQuery.map(_.id)) += Todo(None, "test", "content")
+              (tableQuery returning tableQuery.map(_.id)) += TodoRow(None, todo.name, todo.content)
             )
           } yield NoContent
         }

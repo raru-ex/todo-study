@@ -1,5 +1,7 @@
 package net.syrup16g.todo.db.slick
 
+import java.sql.Timestamp
+
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
@@ -25,7 +27,15 @@ trait Tables {
    *  @param content Database column content SqlType(TEXT)
    *  @param createdAt Database column created_at SqlType(TIMESTAMP)
    *  @param updatedAt Database column updated_at SqlType(TIMESTAMP) */
-  case class TodoRow(id: Option[Long], name: String, content: String, createdAt: java.sql.Timestamp, updatedAt: java.sql.Timestamp)
+  //TODO: LocalDateTimeに対応
+  case class TodoRow(
+    id: Option[Long],
+    name: String,
+    content: String,
+    createdAt: java.sql.Timestamp = new Timestamp(System.currentTimeMillis()),
+    updatedAt: java.sql.Timestamp = new Timestamp(System.currentTimeMillis())
+  )
+
   /** GetResult implicit for fetching TodoRow objects using plain SQL queries */
   implicit def GetResultTodoRow(implicit e0: GR[Long], e1: GR[String], e2: GR[java.sql.Timestamp]): GR[TodoRow] = GR{
     prs => import prs._
