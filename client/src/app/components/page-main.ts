@@ -41,9 +41,10 @@ export class PageMainComponent implements OnInit, OnDestroy {
    */
   openAddModal() {
    this.subscription = this.dialog.open(TodoAddModalComponemt, {
-      width: '400px',
-      data: { title: "TODOの新規追加" }
-    }).afterClosed().subscribe(_ => {
+     width: '400px',
+     data: { title: "TODOの新規追加"},
+     disabledClose: true,
+   }).afterClosed().subscribe(_ => {
       console.log('todo add modal is closed');
       this.snackbar.open(
         "新しいTodoを追加しました。",
