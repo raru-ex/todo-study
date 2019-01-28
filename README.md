@@ -6,6 +6,6 @@ play2.6系
 # Versions
 scala 2.12  
 play 2.6  
-mysql 5.7
+mysql 5.7  
 angular 7
 
