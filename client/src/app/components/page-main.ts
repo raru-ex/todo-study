@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Observable, Subscription } from 'rxjs'
 import {MatDialog, MatSnackBar} from '@angular/material';
 import { TodoAddModalComponemt } from '@app/components/modal';
-import { Store, Select } from '@ngxs/store'
+import {Store, Select, Actions, ofActionSuccessful} from '@ngxs/store'
 import { TodoAction, TodoState } from '@shared/state'
 import {Todo} from "@shared/model";
 
@@ -19,12 +19,25 @@ export class PageMainComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
+    private actions: Actions,
     private store: Store,
     private snackbar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.store.dispatch(new TodoAction.Load())
+
+    // 登録処理が成功した場合
+    this.subscription = this.actions.pipe(
+      ofActionSuccessful(TodoAction.Create)
+    ).subscribe(_ => {
+      console.log('todo add is sucessful');
+      this.snackbar.open(
+        "新しいTodoを追加しました。",
+        "",
+        { duration: 1000 }
+        )
+    })
   }
 
   /**
@@ -40,16 +53,11 @@ export class PageMainComponent implements OnInit, OnDestroy {
    * TODOの新規追加ダイアログ表示
    */
   openAddModal() {
-   this.subscription = this.dialog.open(TodoAddModalComponemt, {
-     width: '400px',
-     data: { title: "TODOの新規追加"},
-     disabledClose: true,
-   }).afterClosed().subscribe(_ => {
-      console.log('todo add modal is closed');
-      this.snackbar.open(
-        "新しいTodoを追加しました。",
-        "",
-        { duration: 500 } )
+    this.dialog.open(TodoAddModalComponemt, {
+      width: '400px',
+      data: { title: "TODOの新規追加"},
+      disableClose: true,
+      autoFocus: true
     })
   }
 }
