@@ -3,6 +3,7 @@ import { TodoAction } from './todo.actions'
 import { HttpClient } from "@angular/common/http";
 import { tap } from "rxjs/operators";
 import { Todo } from '../model'
+import {_keyValueDiffersFactory} from "@angular/core/src/application_module";
 
 export interface TodoStateModel {
   todos: Todo[]
@@ -22,7 +23,8 @@ export module CompanionTodoState {
 
   export const API = {
     LOAD: 'api/v1/todo',
-    CREATE: 'api/v1/todo'
+    CREATE: 'api/v1/todo',
+    UPDATE: 'api/v1/todo/:id'
   }
 }
 
@@ -94,5 +96,33 @@ export class TodoState {
         ctx.dispatch(new TodoAction.Reload())
       })
     )
+  }
+
+  @Action(TodoAction.Update)
+  update(ctx: StateContext<TodoStateModel>, action: TodoAction.Update) {
+    const body = action.payload
+    const url = this.bindUrlParams(
+      CompanionTodoState.API.UPDATE,
+      { id: action.payload.id }
+    )
+    console.log(url)
+    return this.http.put(
+      url,
+      body
+    ).pipe(
+      tap(_ => {
+        ctx.dispatch(new TodoAction.Reload())
+        }
+      )
+    )
+  }
+
+  private bindUrlParams(url: string, params): string {
+    let resultUrl = url
+    Object.entries(params).forEach(keyValue => {
+      console.log(keyValue)
+      resultUrl = url.replace(":" + keyValue[0], <string>keyValue[1])
+    })
+    return resultUrl
   }
 }

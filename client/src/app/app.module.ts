@@ -9,13 +9,14 @@ import {
   MatListModule, MatDialogModule, MatSnackBarModule
 } from '@angular/material';
 import { UiMenuComponent, UiContentComponent, PageMainComponent } from '@app/components';
-import { TodoAddModalComponemt } from '@app/components/modal';
+import { TodoAddModalComponemt, TodoEditModalComponemt } from '@app/components/modal';
 import { AppComponent } from '@app/app.component';
 import { ErrorNotFoundComponent } from '@app/error';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { TodoState } from '@shared/state';
 import { HttpClientModule } from "@angular/common/http";
+import { MatIconModule } from '@angular/material/icon'
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule } from "@angular/common/http";
     UiContentComponent,
     PageMainComponent,
     TodoAddModalComponemt,
+    TodoEditModalComponemt,
     ErrorNotFoundComponent
   ],
   imports: [
@@ -40,6 +42,7 @@ import { HttpClientModule } from "@angular/common/http";
     MatToolbarModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatIconModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
@@ -49,7 +52,8 @@ import { HttpClientModule } from "@angular/common/http";
     ])
   ],
   entryComponents: [
-    TodoAddModalComponemt
+    TodoAddModalComponemt,
+    TodoEditModalComponemt
   ],
   providers: [],
   bootstrap: [AppComponent]
