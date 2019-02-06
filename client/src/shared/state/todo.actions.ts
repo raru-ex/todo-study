@@ -1,4 +1,4 @@
-import { UnstoredTodo } from '@shared/model'
+import { UnstoredTodo, Todo } from '@shared/model'
 
 export module TodoAction {
   export const PREFIX = '[TODO] '
@@ -7,6 +7,7 @@ export module TodoAction {
   export const RELOAD = PREFIX + 'Reload'
   export const SELECT = PREFIX + 'Select'
   export const CREATE = PREFIX + 'Create'
+  export const UPDATE = PREFIX + 'Update'
 
   export class Load {
     static readonly type = LOAD
@@ -24,5 +25,10 @@ export module TodoAction {
   export class Create {
     static readonly type = CREATE
     constructor(public payload: UnstoredTodo) {}
+  }
+
+  export class Update {
+    static readonly type = UPDATE
+    constructor(public payload: Todo) {}
   }
 }

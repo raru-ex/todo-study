@@ -1,6 +1,37 @@
- :host {
-  .content {
-    margin-top: 15px;
-    margin-left: 15px;
-  }
+
+:host {
+   .header {
+     background-color: #ECEFF1;
+     height: 50px;
+     padding: 0 15px;
+
+     .header__title {
+       display: inline-block;
+       font-size: 1.25em;
+       font-weight: 600;
+       line-height: 50px;
+     }
+
+     .header__actions {
+       float: right;
+       line-height: 50px;
+       .action {
+         display: inline-block;
+         padding-left: 15px;
+
+         button {
+           color: #757575;
+         }
+
+         .delete {
+           background-color: #E57373;
+         }
+       }
+     }
+   }
+
+   .content {
+     margin-top: 15px;
+     margin-left: 15px;
+   }
 }

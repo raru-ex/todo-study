@@ -1,2 +1,12 @@
 ng-container(*ngIf="!!todo")
-  span.content {{ todo.content }}
+  .header
+    .header__title {{ todo.name }}
+    .header__actions
+      .action
+        button(mat-raised-button, (click)="openEditModal()")
+          mat-icon edit
+      .action
+        button.delete(mat-raised-button, (click)="openDeleteModal()")
+          mat-icon delete
+  .content
+    | {{ todo.content }}
