@@ -1,7 +1,7 @@
 import {Component, OnInit, Input } from '@angular/core';
 import { Todo } from '@shared/model'
 import {MatDialog} from "@angular/material";
-import {TodoEditModalComponemt} from "@app/components/modal";
+import {TodoEditModalComponent, TodoDeleteModalComponent} from "@app/components/modal";
 
 @Component({
   selector: 'ui-content',
@@ -25,6 +25,16 @@ export class UiContentComponent implements OnInit {
       autoFocus: true,
       data: this.todo
     }
-    this.dialog.open(TodoEditModalComponemt, option)
+    this.dialog.open(TodoEditModalComponent, option)
+  }
+
+  openDeleteModal(): void {
+    const option = {
+      width: '400px',
+      disableClose: true,
+      autoFocus: true,
+      data: this.todo
+    }
+    this.dialog.open(TodoDeleteModalComponent, option)
   }
 }

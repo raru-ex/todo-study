@@ -1,0 +1,11 @@
+
+<div mat-dialog-title="mat-dialog-title"><span>TODOの削除</span></div>
+<mat-dialog-content>
+  <div class="content">
+    <div class="notice">「{{ data.name }}」 を削除してもよろしいですか。</div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button="mat-stroked-button" mat-dialog-close="mat-dialog-close">閉じる</button>
+  <button mat-stroked-button="mat-stroked-button" color="warn" type="submit" (click)="onClickSubmit()">削除</button>
+</mat-dialog-actions>
