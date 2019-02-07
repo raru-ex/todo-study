@@ -33,7 +33,6 @@ export class TodoEditModalComponent implements OnInit {
 
     //TODO !!name等をしないとコンパイル時にnull可能性有りで落ちる。lintをゆるくしたい
     if(this.todoForm.valid && !!name && !!content) {
-      console.log('create new todo')
       this.store.dispatch(new TodoAction.Update({
           ...this.data,
           name: name.value,

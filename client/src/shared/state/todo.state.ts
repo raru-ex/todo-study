@@ -35,7 +35,6 @@ export class TodoState {
 
   @Selector()
   static getState(state: TodoStateModel): TodoStateModel {
-    console.log("called get state ")
     return state
   }
 
@@ -46,16 +45,13 @@ export class TodoState {
 
   @Selector()
   static getSelected(state: TodoStateModel): Todo {
-    console.log("called get selected")
     return state.todos.find(todo => todo.id === state.selectedId)
   }
 
   @Action(TodoAction.Load)
   load(ctx: StateContext<TodoStateModel>) {
-    console.log("============ called load ================")
     return this.http.get(CompanionTodoState.API.LOAD).pipe(
       tap((data: {rows: Todo[]}) => {
-        console.log(data)
         ctx.setState({
             "todos": data.rows,
             "selectedId": 1
@@ -67,10 +63,8 @@ export class TodoState {
 
   @Action(TodoAction.Reload)
   reload(ctx: StateContext<TodoStateModel>) {
-    console.log("============ called Reload ================")
     return this.http.get(CompanionTodoState.API.LOAD).pipe(
       tap((data: {rows: Todo[]}) => {
-        console.log(data)
         ctx.patchState({
             "todos": data.rows
           }
@@ -106,7 +100,6 @@ export class TodoState {
       CompanionTodoState.API.UPDATE,
       { id: action.payload.id }
     )
-    console.log(url)
     return this.http.put(
       url,
       body
@@ -134,7 +127,6 @@ export class TodoState {
   private bindUrlParams(url: string, params): string {
     let resultUrl = url
     Object.entries(params).forEach(keyValue => {
-      console.log(keyValue)
       resultUrl = url.replace(":" + keyValue[0], <string>keyValue[1])
     })
     return resultUrl
