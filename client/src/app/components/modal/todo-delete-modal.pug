@@ -1,0 +1,10 @@
+div(mat-dialog-title)
+  span TODOの削除
+mat-dialog-content
+  .content
+    .notice 「{{ data.name }}」 を削除してもよろしいですか。
+
+mat-dialog-actions
+  button(mat-stroked-button, mat-dialog-close) 閉じる
+  button(mat-stroked-button, color="warn", type='submit', (click)='onClickSubmit()') 削除
+

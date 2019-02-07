@@ -24,7 +24,8 @@ export module CompanionTodoState {
   export const API = {
     LOAD: 'api/v1/todo',
     CREATE: 'api/v1/todo',
-    UPDATE: 'api/v1/todo/:id'
+    UPDATE: 'api/v1/todo/:id',
+    DELETE: 'api/v1/todo/:id'
   }
 }
 
@@ -114,6 +115,19 @@ export class TodoState {
         ctx.dispatch(new TodoAction.Reload())
         }
       )
+    )
+  }
+
+  @Action(TodoAction.Delete)
+  delete(ctx: StateContext<TodoStateModel>, action: TodoAction.Delete) {
+    const url = this.bindUrlParams(
+      CompanionTodoState.API.DELETE,
+      { id: action.payload.id }
+    )
+    return this.http.delete(url).pipe(
+      tap(_ => {
+        ctx.dispatch(new TodoAction.Reload())
+      })
     )
   }
 

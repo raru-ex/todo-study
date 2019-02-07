@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Observable, Subscription } from 'rxjs'
 import {MatDialog, MatSnackBar} from '@angular/material';
-import { TodoAddModalComponemt } from '@app/components/modal';
+import { TodoAddModalComponent } from '@app/components/modal';
 import {Store, Select, Actions, ofActionSuccessful} from '@ngxs/store'
 import { TodoAction, TodoState } from '@shared/state'
 import {Todo} from "@shared/model";
@@ -53,7 +53,7 @@ export class PageMainComponent implements OnInit, OnDestroy {
    * TODOの新規追加ダイアログ表示
    */
   openAddModal() {
-    this.dialog.open(TodoAddModalComponemt, {
+    this.dialog.open(TodoAddModalComponent, {
       width: '400px',
       data: { title: "TODOの新規追加"},
       disableClose: true,

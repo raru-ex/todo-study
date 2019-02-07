@@ -9,7 +9,7 @@ import {
   MatListModule, MatDialogModule, MatSnackBarModule
 } from '@angular/material';
 import { UiMenuComponent, UiContentComponent, PageMainComponent } from '@app/components';
-import { TodoAddModalComponemt, TodoEditModalComponemt } from '@app/components/modal';
+import { TodoAddModalComponent, TodoEditModalComponent, TodoDeleteModalComponent } from '@app/components/modal';
 import { AppComponent } from '@app/app.component';
 import { ErrorNotFoundComponent } from '@app/error';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -24,8 +24,9 @@ import { MatIconModule } from '@angular/material/icon'
     UiMenuComponent,
     UiContentComponent,
     PageMainComponent,
-    TodoAddModalComponemt,
-    TodoEditModalComponemt,
+    TodoAddModalComponent,
+    TodoEditModalComponent,
+    TodoDeleteModalComponent,
     ErrorNotFoundComponent
   ],
   imports: [
@@ -52,8 +53,9 @@ import { MatIconModule } from '@angular/material/icon'
     ])
   ],
   entryComponents: [
-    TodoAddModalComponemt,
-    TodoEditModalComponemt
+    TodoAddModalComponent,
+    TodoEditModalComponent,
+    TodoDeleteModalComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

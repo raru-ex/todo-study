@@ -9,14 +9,14 @@ import { TodoAction } from '@shared/state'
   templateUrl: './todo-add-modal.html',
   styleUrls:  ['./todo-add-modal.scss']
 })
-export class TodoAddModalComponemt implements OnInit {
+export class TodoAddModalComponent implements OnInit {
   todoForm = new FormGroup({
     name: new FormControl('', Validators.required),
     content: new FormControl('', Validators.required),
   })
 
   constructor(
-    public dialogRef: MatDialogRef<TodoAddModalComponemt>,
+    public dialogRef: MatDialogRef<TodoAddModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UnstoredTodo,
     private store: Store
   ) { }

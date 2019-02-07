@@ -8,6 +8,7 @@ export module TodoAction {
   export const SELECT = PREFIX + 'Select'
   export const CREATE = PREFIX + 'Create'
   export const UPDATE = PREFIX + 'Update'
+  export const DELETE = PREFIX + 'Delete'
 
   export class Load {
     static readonly type = LOAD
@@ -30,5 +31,10 @@ export module TodoAction {
   export class Update {
     static readonly type = UPDATE
     constructor(public payload: Todo) {}
+  }
+
+  export class Delete {
+    static readonly type = DELETE
+    constructor(public payload: { id: number }) {}
   }
 }
