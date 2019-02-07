@@ -31,7 +31,6 @@ export class PageMainComponent implements OnInit, OnDestroy {
     this.subscription = this.actions.pipe(
       ofActionSuccessful(TodoAction.Create)
     ).subscribe(_ => {
-      console.log('todo add is sucessful');
       this.snackbar.open(
         "新しいTodoを追加しました。",
         "",

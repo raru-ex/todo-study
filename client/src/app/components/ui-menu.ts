@@ -20,7 +20,6 @@ export class UiMenuComponent implements OnInit {
   }
 
   onClickMenuItem(todo: Todo) {
-    console.log(todo)
     this.store.dispatch(new TodoAction.Select({ id: todo.id }))
   }
 
