@@ -52,7 +52,9 @@ export class UiContentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if(this.subscriptions.length > 0) {
-      this.subscriptions.forEach(_.unsubscribe())
+      this.subscriptions.forEach(subscription => {
+        subscription.unsubscribe()
+      })
     }
   }
 
