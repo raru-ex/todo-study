@@ -11,9 +11,9 @@ libraryDependencies += guice
 libraryDependencies ++= Seq(
   jdbc,
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
-  "com.typesafe.slick" %% "slick" % "3.2.3",
-  "com.typesafe.slick" %% "slick-codegen" % "3.2.3",
-  "com.typesafe.slick" %% "slick-hikaricp" % "3.2.3",
+  "com.typesafe.slick" %% "slick" % "3.3.0",
+  "com.typesafe.slick" %% "slick-codegen" % "3.3.0",
+  "com.typesafe.slick" %% "slick-hikaricp" % "3.3.0",
   "mysql" % "mysql-connector-java" % "6.0.6"
 )
 
