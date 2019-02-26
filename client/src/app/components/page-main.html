@@ -12,5 +12,6 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <ui-content [todo]="selected$|async"></ui-content>
+    <button (click)="onClickError()">error</button>
   </mat-sidenav-content>
 </mat-sidenav-container>

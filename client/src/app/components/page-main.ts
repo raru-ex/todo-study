@@ -59,4 +59,8 @@ export class PageMainComponent implements OnInit, OnDestroy {
       autoFocus: true
     })
   }
+
+  onClickError(): void {
+    this.store.dispatch(new TodoAction.ErrorTest())
+  }
 }
