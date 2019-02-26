@@ -9,6 +9,7 @@ export module TodoAction {
   export const CREATE = PREFIX + 'Create'
   export const UPDATE = PREFIX + 'Update'
   export const DELETE = PREFIX + 'Delete'
+  export const ERROR_TEST = PREFIX + 'ERROR_TEST'
 
   export class Load {
     static readonly type = LOAD
@@ -36,5 +37,9 @@ export module TodoAction {
   export class Delete {
     static readonly type = DELETE
     constructor(public payload: { id: number }) {}
+  }
+
+  export class ErrorTest {
+    static readonly type = ERROR_TEST
   }
 }

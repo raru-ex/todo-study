@@ -25,7 +25,8 @@ export module CompanionTodoState {
     LOAD: 'api/v1/todo',
     CREATE: 'api/v1/todo',
     UPDATE: 'api/v1/todo/:id',
-    DELETE: 'api/v1/todo/:id'
+    DELETE: 'api/v1/todo/:id',
+    ERROR_TEST: 'api/v1/todo/error1',
   }
 }
 
@@ -120,6 +121,16 @@ export class TodoState {
     return this.http.delete(url).pipe(
       tap(_ => {
         ctx.dispatch(new TodoAction.Reload())
+      })
+    )
+  }
+
+  @Action(TodoAction.ErrorTest)
+  errorTest() {
+    return this.http.get(CompanionTodoState.API.ERROR_TEST).pipe(
+      tap(response => {
+        console.log("========== error test")
+        console.log(response)
       })
     )
   }

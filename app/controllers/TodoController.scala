@@ -7,7 +7,6 @@ import net.syrup16g.todo.db.slick.Tables._
 import play.api.libs.json.{JsError, Json}
 
 import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.concurrent.duration.Duration
 
 @Singleton
 class TodoController @Inject()(cc: ControllerComponents, implicit val ec: ExecutionContext)
@@ -31,7 +30,7 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
         import net.syrup16g.todo.json.writes.JsValTodo
         val jsons = result.map { todo =>
           Json.toJson(JsValTodo(todo.id.getOrElse(-1), todo.name, todo.content))
-        }
+      }
 
         // Future[Result]を返す必要があるためOKで型をResultに。
         Ok(Json.obj({
@@ -95,6 +94,12 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
           tableQuery.filter(_.id === id).delete
         )
       } yield NoContent
+  }
+
+  def errorTest() = Action {
+    implicit request =>
+      println("called errror test action")
+      throw new IllegalArgumentException
   }
 
 }
