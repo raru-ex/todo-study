@@ -2,6 +2,10 @@ package net.syrup16g.http
 
 import play.api.http.DefaultHttpErrorHandler
 
+/**
+  * 基本的なカスタムエラーハンドラ
+  * いくつかのon系イベントや環境ごとのイベントが用意されている
+  */
 class CustomHttpErrorHandler extends DefaultHttpErrorHandler {
   override def onClientError(request:  _root_.play.api.mvc.RequestHeader, statusCode:  Int, message:  _root_.scala.Predef.String): _root_.scala.concurrent.Future[_root_.play.api.mvc.Result] = {
     println("========== called onClientError ==========")
