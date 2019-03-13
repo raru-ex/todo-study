@@ -11,8 +11,8 @@ class CustomContentTypeErrorHandler @Inject() (
   jsonHandler: JsonHttpErrorHandler,
   htmlHandler: DefaultHttpErrorHandler,
   xmlHandler: XmlHttpErrorHandler
-) extends PreferredMediaTypeHttpErrorHandler {
+) extends PreferredMediaTypeHttpErrorHandler (
   "application/json" -> jsonHandler,
   "text/html"        -> htmlHandler,
   "application/xml"  -> xmlHandler
-}
+)
