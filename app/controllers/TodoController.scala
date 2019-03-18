@@ -5,6 +5,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import net.syrup16g.todo.db.slick.Tables._
 import play.api.libs.json.{JsError, Json}
+import play.mvc.Http.MimeTypes
 
 import scala.concurrent.{Await, ExecutionContext, Future}
 
@@ -100,6 +101,7 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
     implicit request =>
       println("called errror test action")
       throw new IllegalArgumentException
+//      BadRequest
   }
 
 }
