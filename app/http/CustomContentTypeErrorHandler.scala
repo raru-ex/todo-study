@@ -1,4 +1,4 @@
-package net.syrup16g.http
+package net.syrup16g.todo.http
 
 import javax.inject.Inject
 import play.api.http._

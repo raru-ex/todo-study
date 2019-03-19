@@ -5,9 +5,8 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import net.syrup16g.todo.db.slick.Tables._
 import play.api.libs.json.{JsError, Json}
-import play.mvc.Http.MimeTypes
 
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class TodoController @Inject()(cc: ControllerComponents, implicit val ec: ExecutionContext)
