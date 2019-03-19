@@ -1,4 +1,4 @@
-package net.syrup16g.http
+package net.syrup16g.todo.http
 
 import play.api.http.DefaultHttpErrorHandler
 
