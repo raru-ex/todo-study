@@ -1,23 +1,20 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngxs/store'
-import { Todo } from '@shared/model'
-import { TodoAction } from '@shared/state'
+import { Todo } from '@app/model'
+import { TodoAction } from '@app/state'
 
 @Component({
   templateUrl: './todo-delete-modal.html',
   styleUrls:  ['./todo-delete-modal.scss']
 })
-export class TodoDeleteModalComponent implements OnInit {
+export class TodoDeleteModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TodoDeleteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Todo,
     private store: Store
   ) { }
-
-  ngOnInit() {
-  }
 
   /**
    * 登録ボタン押下時の処理

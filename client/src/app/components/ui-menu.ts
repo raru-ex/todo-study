@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Todo } from '@shared/model'
-import {TodoAction} from '@shared/state'
+import { Todo } from '@app/model'
+import {TodoAction} from '@app/state'
 
 @Component({
   selector: 'ui-menu',

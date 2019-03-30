@@ -1,4 +1,4 @@
-import { UnstoredTodo, Todo } from '@shared/model'
+import { UnstoredTodo, Todo } from '../model'
 
 export module TodoAction {
   export const PREFIX = '[TODO] '

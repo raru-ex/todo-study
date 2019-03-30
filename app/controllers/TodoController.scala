@@ -98,7 +98,7 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
 
   def errorTest() = Action {
     implicit request =>
-      println("called errror test action")
+      println("called error test action")
       throw new IllegalArgumentException
 //      BadRequest
   }

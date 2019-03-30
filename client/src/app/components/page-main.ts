@@ -3,8 +3,8 @@ import { Observable, Subscription } from 'rxjs'
 import {MatDialog, MatSnackBar} from '@angular/material';
 import { TodoAddModalComponent } from '@app/components/modal';
 import {Store, Select, Actions, ofActionSuccessful} from '@ngxs/store'
-import { TodoAction, TodoState } from '@shared/state'
-import {Todo} from "@shared/model";
+import { TodoAction, TodoState } from '@app/state'
+import {Todo} from "@app/model";
 
 @Component({
   selector: 'page-main',
