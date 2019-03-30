@@ -1,10 +1,10 @@
 import {Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Todo } from '@shared/model'
+import { Todo } from '@app/model'
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {TodoEditModalComponent, TodoDeleteModalComponent} from "@app/components/modal";
 import {Subscription} from "rxjs";
 import { Actions, ofActionSuccessful} from '@ngxs/store';
-import {TodoAction} from '@shared/state';
+import {TodoAction} from '@app/state';
 import {map} from "rxjs/operators";
 
 @Component({

@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule, MatCheckboxModule, MatSliderModule,
   MatFormFieldModule, MatInputModule, MatSidenavModule, MatToolbarModule,
-  MatListModule, MatDialogModule, MatSnackBarModule
+  MatListModule, MatDialogModule, MatSnackBarModule, MatSelectModule, MatOptionModule
 } from '@angular/material';
 import { UiMenuComponent, UiContentComponent, PageMainComponent } from '@app/components';
 import { TodoAddModalComponent, TodoEditModalComponent, TodoDeleteModalComponent } from '@app/components/modal';
@@ -14,7 +14,7 @@ import { AppComponent } from '@app/app.component';
 import { ErrorNotFoundComponent } from '@app/error';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
-import { TodoState } from '@shared/state';
+import { TodoState } from '@app/state';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { MatIconModule } from '@angular/material/icon'
 import { CustomHttpErrorInterceptor } from "@app/common/http/CustomHttpErrorInterceptor";
@@ -46,6 +46,8 @@ import { CustomErrorHandler } from '@app/common/handler/CustomErrorHandler'
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
+    MatSelectModule,
+    MatOptionModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,

@@ -6,6 +6,12 @@ mat-dialog-content
       input(matInput, placeholder='TODO title', formControlName='name')
     mat-form-field
       textarea(matInput placeholder='TODO Detail', formControlName='content')
+    mat-form-field
+      mat-select(formControlName="condition")
+        mat-option(*ngFor="let item of selectOptions", [value]="item.id")
+          | {{ item.label }}
+    mat-form-field
+      input(matInput, placeholder='条件付き必須', formControlName="conditionContent")
 
 mat-dialog-actions
   button(mat-stroked-button, mat-dialog-close) 閉じる

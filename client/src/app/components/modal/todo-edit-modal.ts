@@ -1,15 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store'
-import { Todo } from '@shared/model'
-import { TodoAction } from '@shared/state'
+import { Todo } from '@app/model'
+import { TodoAction } from '@app/state'
 
 @Component({
   templateUrl: './todo-edit-modal.html',
   styleUrls:  ['./todo-edit-modal.scss']
 })
-export class TodoEditModalComponent implements OnInit {
+export class TodoEditModalComponent {
   todoForm = new FormGroup({
     name: new FormControl(this.data.name, Validators.required),
     content: new FormControl(this.data.content, Validators.required),
@@ -20,9 +20,6 @@ export class TodoEditModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Todo,
     private store: Store
   ) { }
-
-  ngOnInit() {
-  }
 
   /**
    * 登録ボタン押下時の処理
