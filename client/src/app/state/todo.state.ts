@@ -3,7 +3,6 @@ import { TodoAction } from './todo.actions'
 import { HttpClient } from "@angular/common/http";
 import { tap } from "rxjs/operators";
 import { Todo } from '../model'
-import {_keyValueDiffersFactory} from "@angular/core/src/application_module";
 
 export interface TodoStateModel {
   todos: Todo[]
