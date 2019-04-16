@@ -1,4 +1,4 @@
-import { UnstoredTodo, Todo } from '../model'
+import { Todo } from '../model'
 
 export module TodoAction {
   export const PREFIX = '[TODO] '
@@ -26,7 +26,7 @@ export module TodoAction {
 
   export class Create {
     static readonly type = CREATE
-    constructor(public payload: UnstoredTodo) {}
+    constructor(public payload: Todo.NoId) {}
   }
 
   export class Update {

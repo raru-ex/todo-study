@@ -2,7 +2,7 @@ import { Component, Inject }                  from '@angular/core';
 import { MatDialogRef,MAT_DIALOG_DATA }       from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store }                              from '@ngxs/store'
-import { UnstoredTodo }                       from '@app/model'
+import { Todo }                               from '@app/model'
 import { TodoAction }                         from '@app/state'
 import { CustomValidators }                   from "@app/common/validator/CustomValidator";
 
@@ -37,7 +37,7 @@ export class TodoAddModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TodoAddModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UnstoredTodo,
+    @Inject(MAT_DIALOG_DATA) public data: Todo.NoId,
     private store: Store
   ) { }
 
@@ -50,7 +50,7 @@ export class TodoAddModalComponent {
 
     //TODO !!name等をしないとコンパイル時にnull可能性有りで落ちる。lintをゆるくしたい
     if( this.todoForm.valid && !!name && !!content) {
-      this.store.dispatch(new TodoAction.Create(<UnstoredTodo>{
+      this.store.dispatch(new TodoAction.Create(<Todo.NoId>{
         name: name.value,
         content: content.value
       }))
