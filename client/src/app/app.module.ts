@@ -19,6 +19,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { MatIconModule } from '@angular/material/icon'
 import { CustomHttpErrorInterceptor } from "@app/common/http/CustomHttpErrorInterceptor";
 import { CustomErrorHandler } from '@app/common/handler/CustomErrorHandler'
+import {DialogComponent} from "@app/service/dialog";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CustomErrorHandler } from '@app/common/handler/CustomErrorHandler'
     TodoAddModalComponent,
     TodoEditModalComponent,
     TodoDeleteModalComponent,
-    ErrorNotFoundComponent
+    ErrorNotFoundComponent,
+    DialogComponent,
   ],
   imports: [
     HttpClientModule,
@@ -59,7 +61,8 @@ import { CustomErrorHandler } from '@app/common/handler/CustomErrorHandler'
   entryComponents: [
     TodoAddModalComponent,
     TodoEditModalComponent,
-    TodoDeleteModalComponent
+    TodoDeleteModalComponent,
+    DialogComponent,
   ],
   providers: [{
     provide: ErrorHandler,
