@@ -1,0 +1,14 @@
+//#contentなどの値がミラーリングされるのを防止
+doctype html
+div(mat-dialog-title)
+  span {{ data.title }}
+mat-dialog-content
+  span {{ data.content }}
+
+mat-dialog-actions
+  ng-container(*ngIf="data.type === dialogType.CONFIRM; then confirm; else common")
+  ng-template(#confirm)
+    button(mat-stroked-button, mat-dialog-close) OK
+    button(mat-stroked-button, mat-dialog-close) キャンセル
+  ng-template(#common)
+    button(mat-stroked-button, mat-dialog-close) 閉じる

@@ -1,0 +1,14 @@
+
+<!--#contentなどの値がミラーリングされるのを防止--><!DOCTYPE html>
+<div mat-dialog-title><span>{{ data.title }}</span></div>
+<mat-dialog-content><span>{{ data.content }}</span></mat-dialog-content>
+<mat-dialog-actions>
+  <ng-container *ngIf="data.type === dialogType.CONFIRM; then confirm; else common"></ng-container>
+  <ng-template #confirm>
+    <button mat-stroked-button mat-dialog-close>OK</button>
+    <button mat-stroked-button mat-dialog-close>キャンセル</button>
+  </ng-template>
+  <ng-template #common>
+    <button mat-stroked-button mat-dialog-close>閉じる</button>
+  </ng-template>
+</mat-dialog-actions>

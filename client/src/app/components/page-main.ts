@@ -5,6 +5,7 @@ import { TodoAddModalComponent } from '@app/components/modal';
 import {Store, Select, Actions, ofActionSuccessful} from '@ngxs/store'
 import { TodoAction, TodoState } from '@app/state'
 import {Todo} from "@app/model";
+import {DialogService} from "@app/service/dialog-service";
 
 @Component({
   selector: 'page-main',
@@ -21,7 +22,8 @@ export class PageMainComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private actions: Actions,
     private store: Store,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -37,6 +39,7 @@ export class PageMainComponent implements OnInit, OnDestroy {
         { duration: 1000 }
         )
     })
+    this.dialogService.info("title test", "content test")
   }
 
   /**
