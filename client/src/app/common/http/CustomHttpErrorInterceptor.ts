@@ -1,10 +1,17 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError, retry} from "rxjs/operators";
+import {DialogService} from "@app/service/dialog-service";
+import {Injectable} from "@angular/core";
 
 
 /** Httpエラーのハンドリングを行うインターセプタ */
+@Injectable()
 export class CustomHttpErrorInterceptor implements HttpInterceptor {
+  constructor(
+    private dialog: DialogService
+  ) {}
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
       .pipe(
@@ -27,6 +34,6 @@ export class CustomHttpErrorInterceptor implements HttpInterceptor {
    * 一旦アラートで表示
    */
   private showError(message): void {
-    window.alert(message)
+    this.dialog.error("エラー", message)
   }
 }

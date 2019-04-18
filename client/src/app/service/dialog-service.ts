@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core'
 import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material'
 import { DialogComponent } from "./dialog"
+import { Dialog } from "./dialog-module";
+import DialogType = Dialog.DialogType;
 
 /**
  * 汎用ダイアログ処理用サービス
@@ -69,18 +71,4 @@ export class DialogService {
   }
 }
 
-/**
- * ダイアログの種類を管理するEnum
- */
-export enum DialogType {
-  CONFIRM,
-  INFO,
-  WARNING,
-  ERROR
-}
 
-export type DialogServiceData = {
-  title: string,
-  content: string,
-  type: DialogType
-}

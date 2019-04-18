@@ -4,12 +4,12 @@
     <div class="header__title">{{ todo.name }}</div>
     <div class="header__actions">
       <div class="action">
-        <button mat-raised-button="mat-raised-button" (click)="openEditModal()">
+        <button mat-raised-button (click)="openEditModal()">
           <mat-icon>edit</mat-icon>
         </button>
       </div>
       <div class="action">
-        <button class="delete" mat-raised-button="mat-raised-button" (click)="openDeleteModal()">
+        <button class="delete" mat-raised-button (click)="openDeleteModal()">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
