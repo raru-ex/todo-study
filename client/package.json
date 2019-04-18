@@ -2,8 +2,8 @@
   "name": "raru-todo",
   "version": "0.0.0",
   "scripts": {
-    "build:pug": "pug src/app --pretty ",
-    "watch:pug": "pug src/app --watch --pretty ",
+    "build:pug": "pug src/app --doctype html ---pretty ",
+    "watch:pug": "pug src/app --doctype html --watch --pretty ",
     "ng": "ng",
     "start": "yarn run watch:pug & ng serve --port=5555 --proxy-config proxy.conf.json",
     "build": "ng build",

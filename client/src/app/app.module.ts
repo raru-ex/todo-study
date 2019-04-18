@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {ErrorHandler, NgModule} from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,11 +15,11 @@ import { ErrorNotFoundComponent } from '@app/error';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { TodoState } from '@app/state';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { MatIconModule } from '@angular/material/icon'
 import { CustomHttpErrorInterceptor } from "@app/common/http/CustomHttpErrorInterceptor";
 import { CustomErrorHandler } from '@app/common/handler/CustomErrorHandler'
-import {DialogComponent} from "@app/service/dialog";
+import { DialogComponent } from "@app/service/dialog"
 
 @NgModule({
   declarations: [
@@ -64,10 +64,11 @@ import {DialogComponent} from "@app/service/dialog";
     TodoDeleteModalComponent,
     DialogComponent,
   ],
-  providers: [{
-    provide: ErrorHandler,
-    useClass: CustomErrorHandler
-  },
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: CustomErrorHandler
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CustomHttpErrorInterceptor,

@@ -1,16 +1,16 @@
 
-<div mat-dialog-title="mat-dialog-title"><span>TODOの変更</span></div>
+<div mat-dialog-title><span>TODOの変更</span></div>
 <mat-dialog-content>
   <form [formGroup]="todoForm">
     <mat-form-field>
-      <input matInput="matInput" placeholder="TODO title" formControlName="name"/>
+      <input matInput placeholder="TODO title" formControlName="name">
     </mat-form-field>
     <mat-form-field>
-      <textarea matInput="matInput" placeholder="TODO Detail" formControlName="content"></textarea>
+      <textarea matInput placeholder="TODO Detail" formControlName="content"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-stroked-button="mat-stroked-button" mat-dialog-close="mat-dialog-close">閉じる</button>
-  <button mat-stroked-button="mat-stroked-button" type="submit" (click)="onClickSubmit()">変更</button>
+  <button mat-stroked-button mat-dialog-close>閉じる</button>
+  <button mat-stroked-button type="submit" (click)="onClickSubmit()">変更</button>
 </mat-dialog-actions>
