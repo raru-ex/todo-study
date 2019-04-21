@@ -26,6 +26,7 @@ export module CompanionTodoState {
     UPDATE: 'api/v1/todo/:id',
     DELETE: 'api/v1/todo/:id',
     ERROR_TEST: 'api/v1/todo/error1',
+    ERROR_TEST_JSON: 'api/v1/todo/error2',
   }
 }
 
@@ -124,11 +125,22 @@ export class TodoState {
     )
   }
 
+  // ======== エラー動作検証
   @Action(TodoAction.ErrorTest)
   errorTest() {
+    console.log("========== error test")
     return this.http.get(CompanionTodoState.API.ERROR_TEST).pipe(
       tap(response => {
-        console.log("========== error test")
+        console.log(response)
+      })
+    )
+  }
+
+  @Action(TodoAction.ErrorTestJson)
+  errorJson() {
+    console.log("========== json error test")
+    return this.http.post(CompanionTodoState.API.ERROR_TEST_JSON, { name: null }).pipe(
+      tap(response => {
         console.log(response)
       })
     )

@@ -63,4 +63,8 @@ export class PageMainComponent implements OnInit, OnDestroy {
   onClickError(): void {
     this.store.dispatch(new TodoAction.ErrorTest())
   }
+
+  onClickErrorJson(): void {
+    this.store.dispatch(new TodoAction.ErrorTestJson())
+  }
 }
