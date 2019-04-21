@@ -17,7 +17,9 @@ export class CustomHttpErrorInterceptor implements HttpInterceptor {
       .pipe(
         retry(1),
         catchError((error: HttpErrorResponse) => {
+          console.log(error)
           // クライアントエラー
+          // TODO: たぶんこのクライアントエラーで分岐できてない
           if (error.error instanceof ErrorEvent) {
             this.showError(error.error.message)
           } else { // サーバエラー

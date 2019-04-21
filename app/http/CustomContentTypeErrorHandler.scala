@@ -8,11 +8,12 @@ import play.api.http._
   * 渡されたMIMEに対して紐づけられたハンドラが呼び出される
   */
 class CustomContentTypeErrorHandler @Inject() (
-  jsonHandler: JsonHttpErrorHandler,
   htmlHandler: DefaultHttpErrorHandler,
+  jsonHandler: JsonHttpErrorHandler,
   xmlHandler: XmlHttpErrorHandler
 ) extends PreferredMediaTypeHttpErrorHandler (
-  "application/json" -> jsonHandler,
+  // headがdefaultHandlerとして利用されるためhtmlを最初に記載
   "text/html"        -> htmlHandler,
+  "application/json" -> jsonHandler,
   "application/xml"  -> xmlHandler
 )

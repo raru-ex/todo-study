@@ -13,6 +13,7 @@ angular 7
 [Scala]  
 - Error Handler
     - CustomErrorHandlerサンプル (完了)
+    - JsonValidatorのエラーサンプル (未完了)
     - エラーメッセージ管理 (未完了)
 - 認証処理 (未完了)
 - logging (未完了)
@@ -22,7 +23,7 @@ angular 7
 - 認証処理 (未完了)
 - Error Handler
     - インターセプト (完了)
-    - 共通モーダル (未完了)
+    - 共通モーダル (一旦完了)
 - Validator
     - CustomValidatorサンプル (完了)
     - Validatorのエラー表示 (未対応)

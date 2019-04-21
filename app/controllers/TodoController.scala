@@ -49,7 +49,7 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
       validate.fold(
         errors => {
           // asyncのためfutureで囲う
-          Future.successful(BadRequest(Json.obj("status" ->"KO", "message" -> JsError.toJson(errors))))
+          Future.successful(BadRequest(Json.obj("status" ->"OK", "message" -> JsError.toJson(errors))))
         },
         todo => {
           val db = Database.forConfig(DB_CONFIG)
@@ -96,11 +96,25 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
       } yield NoContent
   }
 
-  def errorTest() = Action {
+  def error500() = Action {
     implicit request =>
-      println("called error test action")
+      println("called 500 error")
       throw new IllegalArgumentException
-//      BadRequest
   }
 
+  def errorJsonValidate() = Action(parse.json) {
+    implicit request =>
+      println("called json validate error")
+      import net.syrup16g.todo.json.reads.JsValTodo
+      val validate = request.body.validate[JsValTodo]
+      validate.fold(
+        errors => {
+          println("==============================")
+          println(errors.toString)
+          println("==============================")
+          BadRequest(Json.obj("message" -> "Json Parse Error"))
+        },
+        todo => Ok(Json.obj("status" -> "ok"))
+      )
+  }
 }
