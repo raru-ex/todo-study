@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "importHelpers": true,
     "paths": {
-      "@app/*": ["src/app/*"],
+      "@app/*": ["src/app/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -25,6 +25,9 @@
     "lib": [
       "es2017",
       "dom"
+    ],
+    "plugins": [
+      { "name": "@angular/language-service" }
     ]
   }
 }
