@@ -44,7 +44,12 @@ project/project
 project/target
 target
 tmp
-.ensime*
 *.iml
 .gradle/
 /output
+
+# ide, vim
+.ensime*
+.bloop/
+.metals/
+package-lock.json
