@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Dialog } from "./dialog-module";
+import { Dialog } from './dialog-module';
 import DialogType        = Dialog.DialogType;
 import DialogServiceData = Dialog.DialogServiceData;
 
@@ -10,14 +10,11 @@ import DialogServiceData = Dialog.DialogServiceData;
   styleUrls: ['./dialog.scss']
 })
 export class DialogComponent {
-  dialogType = DialogType
+  dialogType = DialogType;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogServiceData,
     public dialogRef: MatDialogRef<DialogComponent>
   ) { }
-
-  ngOnInit(): void {
-    console.log('dialog service is called')
-  }
 }
+

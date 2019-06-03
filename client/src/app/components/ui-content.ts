@@ -1,11 +1,11 @@
 import {Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Todo } from '@app/model'
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {TodoEditModalComponent, TodoDeleteModalComponent} from "@app/components/modal";
-import {Subscription} from "rxjs";
+import { Todo } from '@app/model';
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {TodoEditModalComponent, TodoDeleteModalComponent} from '@app/components/modal';
+import {Subscription} from 'rxjs';
 import { Actions, ofActionSuccessful} from '@ngxs/store';
 import {TodoAction} from '@app/state';
-import {map} from "rxjs/operators";
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'ui-content',
@@ -13,8 +13,8 @@ import {map} from "rxjs/operators";
   styleUrls: ['./ui-content.scss']
 })
 export class UiContentComponent implements OnInit, OnDestroy {
-  @Input() todo: Todo
-  subscriptions: Subscription[] = []
+  @Input() todo: Todo;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -23,7 +23,7 @@ export class UiContentComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    //- 更新成功時
+    // - 更新成功時
     this.subscriptions.push(
       this.actions.pipe(
         ofActionSuccessful(TodoAction.Update),
@@ -31,30 +31,30 @@ export class UiContentComponent implements OnInit, OnDestroy {
       ).subscribe(payload => {
         this.snackbar.open(
           `「${this.todo.name}」を「${payload.name}」に更新しました。`,
-          "",
+          '',
           { duration: 1000 }
-        )
+        );
       })
-    )
-    //- 削除処理成功時
+    );
+    // - 削除処理成功時
     this.subscriptions.push(
       this.actions.pipe(
         ofActionSuccessful(TodoAction.Delete)
       ).subscribe(_ => {
         this.snackbar.open(
-          this.todo.name + "を削除しました",
-          "",
+          this.todo.name + 'を削除しました',
+          '',
           { duration: 1000 }
-        )
+        );
       })
-    )
+    );
   }
 
   ngOnDestroy(): void {
-    if(this.subscriptions.length > 0) {
+    if (this.subscriptions.length > 0) {
       this.subscriptions.forEach(subscription => {
-        subscription.unsubscribe()
-      })
+        subscription.unsubscribe();
+      });
     }
   }
 
@@ -64,8 +64,8 @@ export class UiContentComponent implements OnInit, OnDestroy {
       disableClose: true,
       autoFocus: true,
       data: this.todo
-    }
-    this.dialog.open(TodoEditModalComponent, option)
+    };
+    this.dialog.open(TodoEditModalComponent, option);
   }
 
   openDeleteModal(): void {
@@ -74,7 +74,7 @@ export class UiContentComponent implements OnInit, OnDestroy {
       disableClose: true,
       autoFocus: true,
       data: this.todo
-    }
-    this.dialog.open(TodoDeleteModalComponent, option)
+    };
+    this.dialog.open(TodoDeleteModalComponent, option);
   }
 }

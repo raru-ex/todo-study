@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core'
-import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material'
-import { DialogComponent } from "./dialog"
-import { Dialog } from "./dialog-module";
+import { Injectable } from '@angular/core';
+import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+import { DialogComponent } from './dialog';
+import { Dialog } from './dialog-module';
 import DialogType = Dialog.DialogType;
 
 /**
@@ -22,7 +22,7 @@ export class DialogService {
     return this.dialog.open(
       DialogComponent,
       this.createDialogConfig(title, content, DialogType.CONFIRM)
-    )
+    );
   }
 
   /**
@@ -32,7 +32,7 @@ export class DialogService {
     return this.dialog.open(
       DialogComponent,
       this.createDialogConfig(title, content, DialogType.ERROR)
-    )
+    );
   }
 
   /**
@@ -42,7 +42,7 @@ export class DialogService {
     return this.dialog.open(
       DialogComponent,
       this.createDialogConfig(title, content, DialogType.INFO)
-    )
+    );
   }
 
   /**
@@ -52,7 +52,7 @@ export class DialogService {
     return this.dialog.open(
       DialogComponent,
       this.createDialogConfig(title, content, DialogType.WARNING)
-    )
+    );
   }
 
   /**
@@ -67,7 +67,7 @@ export class DialogService {
       },
       disableClose: true,
       autoFocus: true
-    } as MatDialogConfig
+    } as MatDialogConfig;
   }
 }
 

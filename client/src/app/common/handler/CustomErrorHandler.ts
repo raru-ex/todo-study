@@ -1,4 +1,4 @@
-import {ErrorHandler} from "@angular/core";
+import {ErrorHandler} from '@angular/core';
 
 /**
  * 動作検証のため、試しに作成したエラーハンドラ
@@ -7,7 +7,7 @@ import {ErrorHandler} from "@angular/core";
 export class CustomErrorHandler implements ErrorHandler {
 
   handleError(error: any): void {
-    console.log('====== error handler =====')
-    console.log(error)
+    console.log('====== error handler =====');
+    console.log(error);
   }
 }

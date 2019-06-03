@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngxs/store'
-import { Todo } from '@app/model'
-import { TodoAction } from '@app/state'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Store } from '@ngxs/store';
+import { Todo } from '@app/model';
+import { TodoAction } from '@app/state';
 
 @Component({
   templateUrl: './todo-delete-modal.html',
@@ -22,8 +22,8 @@ export class TodoDeleteModalComponent {
   onClickSubmit() {
       this.store.dispatch(new TodoAction.Delete({
         id: this.data.id
-      }))
-      this.dialogRef.close()
+      }));
+      this.dialogRef.close();
   }
 }
 
