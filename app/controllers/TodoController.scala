@@ -9,8 +9,10 @@ import play.api.libs.json.{JsError, Json}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class TodoController @Inject()(cc: ControllerComponents, implicit val ec: ExecutionContext)
-  extends AbstractController(cc) {
+class TodoController @Inject()(
+  cc: ControllerComponents,
+  implicit val ec: ExecutionContext
+) extends AbstractController(cc) {
   val DB_CONFIG = "slick.dbs.default.db"
 
   /**
@@ -85,6 +87,9 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
       )
   }
 
+  /**
+   * Todoを削除
+   */
   def delete(id: Long) = Action async {
     implicit request =>
       val db = Database.forConfig(DB_CONFIG)
@@ -96,12 +101,18 @@ class TodoController @Inject()(cc: ControllerComponents, implicit val ec: Execut
       } yield NoContent
   }
 
+  /**
+   * InternalServerErrorの挙動を検証する
+   */
   def error500() = Action {
     implicit request =>
       println("called 500 error")
       throw new IllegalArgumentException
   }
 
+  /**
+   * jsonのvalidateエラーの動作を確認する
+   */
   def errorJsonValidate() = Action(parse.json) {
     implicit request =>
       println("called json validate error")

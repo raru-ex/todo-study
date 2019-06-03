@@ -1,10 +1,10 @@
 import { Component, Inject }                  from '@angular/core';
-import { MatDialogRef,MAT_DIALOG_DATA }       from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA }      from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store }                              from '@ngxs/store'
-import { Todo }                               from '@app/model'
-import { TodoAction }                         from '@app/state'
-import { CustomValidators }                   from "@app/common/validator/CustomValidator";
+import { Store }                              from '@ngxs/store';
+import { Todo }                               from '@app/model';
+import { TodoAction }                         from '@app/state';
+import { CustomValidators }                   from '@app/common/validator/CustomValidator';
 
 enum CONDITION {
   IS_REQUIRED,
@@ -20,7 +20,7 @@ export class TodoAddModalComponent {
   selectOptions = [
     { id: CONDITION.IS_REQUIRED,     label: '条件付き必須' },
     { id: CONDITION.IS_NOT_REQUIRED, label: '必須ではない' }
-  ]
+  ];
 
   todoForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -29,11 +29,11 @@ export class TodoAddModalComponent {
     conditionContent: new FormControl(null)
   }, {
     validators: CustomValidators.validateIf(
-      "conditionContent",
-      "condition",
+      'conditionContent',
+      'condition',
       (value) => value === CONDITION.IS_REQUIRED,
       [Validators.min(1), Validators.required])
-  })
+  });
 
   constructor(
     public dialogRef: MatDialogRef<TodoAddModalComponent>,
@@ -45,16 +45,16 @@ export class TodoAddModalComponent {
    * 登録ボタン押下時の処理
    */
   onClickSubmit() {
-    const name = this.todoForm.get('name')
-    const content = this.todoForm.get('content')
+    const name = this.todoForm.get('name');
+    const content = this.todoForm.get('content');
 
-    //TODO !!name等をしないとコンパイル時にnull可能性有りで落ちる。lintをゆるくしたい
-    if( this.todoForm.valid && !!name && !!content) {
+    // TODO !!name等をしないとコンパイル時にnull可能性有りで落ちる。lintをゆるくしたい
+    if ( this.todoForm.valid && !!name && !!content) {
       this.store.dispatch(new TodoAction.Create(<Todo.NoId>{
         name: name.value,
         content: content.value
-      }))
-      this.dialogRef.close()
+      }));
+      this.dialogRef.close();
     }
   }
 }

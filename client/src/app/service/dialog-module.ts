@@ -13,5 +13,5 @@ export module Dialog {
     title: string,
     content: string,
     type: DialogType
-  }
+  };
 }
