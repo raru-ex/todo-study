@@ -8,7 +8,12 @@ class LoginController @Inject()(
   cc: ControllerComponents
 ) extends AbstractController(cc) {
 
+  /**
+   * ログイン画面表示
+   */
   def index() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.login.index())
   }
+
+  def login() = ???
 }
