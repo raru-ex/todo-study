@@ -1,16 +1,9 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# https://www.playframework.com/documentation/latest/ScalaRouting
-# ~~~~
+# api end point routing
+-> /api/v1  api.Routes
 
-# An example controller showing a sample home page
-GET     /api/v1/todo                net.syrup16g.todo.controllers.TodoController.index
-POST    /api/v1/todo                net.syrup16g.todo.controllers.TodoController.create
-PUT     /api/v1/todo/$id<[0-9]+>      net.syrup16g.todo.controllers.TodoController.update(id: Long)
-DELETE  /api/v1/todo/$id<[0-9]+>      net.syrup16g.todo.controllers.TodoController.delete(id: Long)
+# routes
 
-GET   /api/v1/todo/error1                net.syrup16g.todo.controllers.TodoController.error500
-POST   /api/v1/todo/error2                net.syrup16g.todo.controllers.TodoController.errorJsonValidate
+GET     /login                      net.syrup16g.todo.controllers.LoginController.index
 
-# Map static resources from the /public folder to the /assets URL path
+# assets
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
