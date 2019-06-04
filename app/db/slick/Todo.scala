@@ -23,6 +23,7 @@ trait Tables {
 
   /** Entity class storing rows of table Todo
    *  @param id Database column id SqlType(BIGINT UNSIGNED), AutoInc, PrimaryKey
+   *  @param userId Database column user_id SqlType(BIGINT UNSIGNED)
    *  @param name Database column name SqlType(VARCHAR), Length(100,true)
    *  @param content Database column content SqlType(TEXT)
    *  @param createdAt Database column created_at SqlType(TIMESTAMP)
@@ -30,6 +31,7 @@ trait Tables {
   //TODO: LocalDateTimeに対応
   case class TodoRow(
     id: Option[Long],
+    user_id: Long,
     name: String,
     content: String,
     createdAt: java.sql.Timestamp = new Timestamp(System.currentTimeMillis()),
@@ -39,16 +41,18 @@ trait Tables {
   /** GetResult implicit for fetching TodoRow objects using plain SQL queries */
   implicit def GetResultTodoRow(implicit e0: GR[Long], e1: GR[String], e2: GR[java.sql.Timestamp]): GR[TodoRow] = GR{
     prs => import prs._
-    TodoRow.tupled((<<[Option[Long]], <<[String], <<[String], <<[java.sql.Timestamp], <<[java.sql.Timestamp]))
+    TodoRow.tupled((<<[Option[Long]], <<[Long], <<[String], <<[String], <<[java.sql.Timestamp], <<[java.sql.Timestamp]))
   }
   /** Table description of table todo. Objects of this class serve as prototypes for rows in queries. */
   class Todo(_tableTag: Tag) extends profile.api.Table[TodoRow](_tableTag, Some("todo"), "todo") {
-    def * = (id, name, content, createdAt, updatedAt) <> (TodoRow.tupled, TodoRow.unapply)
+    def * = (id, userId, name, content, createdAt, updatedAt) <> (TodoRow.tupled, TodoRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(id), Rep.Some(name), Rep.Some(content), Rep.Some(createdAt), Rep.Some(updatedAt)).shaped.<>({r=>import r._; _1.map(_=> TodoRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(id), Rep.Some(userId),  Rep.Some(name), Rep.Some(content), Rep.Some(createdAt), Rep.Some(updatedAt)).shaped.<>({r=>import r._; _1.map(_=> TodoRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column id SqlType(BIGINT UNSIGNED), AutoInc, PrimaryKey */
     val id: Rep[Option[Long]] = column[Option[Long]]("id", O.AutoInc, O.PrimaryKey)
+    /** Database column user_id SqlType(BIGINT UNSIGNED) */
+    val userId: Rep[Long] = column[Long]("user_id")
     /** Database column name SqlType(VARCHAR), Length(100,true) */
     val name: Rep[String] = column[String]("name", O.Length(100,varying=true))
     /** Database column content SqlType(TEXT) */

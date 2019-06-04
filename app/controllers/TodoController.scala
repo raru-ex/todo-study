@@ -59,7 +59,7 @@ class TodoController @Inject()(
           for {
             _ <- db.run(
               // Todoの作り方間違ってる
-              (tableQuery returning tableQuery.map(_.id)) += TodoRow(None, todo.name, todo.content)
+              (tableQuery returning tableQuery.map(_.id)) += TodoRow(None, 1L, todo.name, todo.content)
             )
           } yield NoContent
         }
@@ -80,7 +80,7 @@ class TodoController @Inject()(
           for {
             _ <- db.run(
               tableQuery.filter(_.id === id)
-                .update(TodoRow(Some(id), jsvalTodo.name, jsvalTodo.content))
+                .update(TodoRow(Some(id), 1L, jsvalTodo.name, jsvalTodo.content))
             )
           } yield NoContent
         }
