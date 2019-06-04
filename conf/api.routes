@@ -1,0 +1,8 @@
+GET     /todo                net.syrup16g.todo.controllers.TodoController.index
+POST    /api/v1/todo                net.syrup16g.todo.controllers.TodoController.create
+PUT     /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.TodoController.update(id: Long)
+DELETE  /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.TodoController.delete(id: Long)
+
+GET     /todo/error1                net.syrup16g.todo.controllers.TodoController.error500
+POST    /todo/error2                net.syrup16g.todo.controllers.TodoController.errorJsonValidate
+
