@@ -10,4 +10,18 @@ object TodoRepository extends TodoSchema {
   def findAll: Future[Seq[Todo]] = DBAction { query =>
     query.sortBy(todo => todo.id.asc).result
   }
+
+  def insert(todo: Todo): Future[Option[Long]] = DBAction { query =>
+    (query returning query.map(_.id)) += todo
+  }
+
+  def update(todo: Todo): Future[Int] = DBAction { _
+    .filter(_.id === todo.id.getOrElse(-1L))
+    .update(todo)
+  }
+
+  def delete(id: Long): Future[Int] = DBAction { _
+    .filter(_.id === id)
+    .delete
+  }
 }

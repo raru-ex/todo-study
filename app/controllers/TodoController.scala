@@ -3,10 +3,9 @@ package net.syrup16g.todo.controllers
 import slick.jdbc.MySQLProfile.api._
 import javax.inject.{Inject, Singleton}
 import play.api.mvc._
-import net.syrup16g.todo.db.slick.Tables._
 import play.api.libs.json.{JsError, Json}
 import net.syrup16g.todo.repositories.TodoRepository
-
+import net.syrup16g.todo.db.model.Todo
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -50,16 +49,9 @@ class TodoController @Inject()(
           // asyncのためfutureで囲う
           Future.successful(BadRequest(Json.obj("status" ->"OK", "message" -> JsError.toJson(errors))))
         },
-        todo => {
-          val db = Database.forConfig(DB_CONFIG)
-          val tableQuery = TableQuery[Todo]
-          for {
-            _ <- db.run(
-              // Todoの作り方間違ってる
-              (tableQuery returning tableQuery.map(_.id)) += TodoRow(None, 1L, todo.name, todo.content)
-            )
-          } yield NoContent
-        }
+        todo => for {
+          _ <- TodoRepository.insert(Todo(None, 1L, todo.name, todo.content))
+        } yield NoContent
       )
   }
 
@@ -71,16 +63,10 @@ class TodoController @Inject()(
         errors => {
           Future.successful(BadRequest(Json.obj("status" ->"KO", "message" -> JsError.toJson(errors))))
         },
-        jsvalTodo => {
-          val db = Database.forConfig(DB_CONFIG)
-          val tableQuery = TableQuery[Todo]
+        jsvalTodo =>
           for {
-            _ <- db.run(
-              tableQuery.filter(_.id === id)
-                .update(TodoRow(Some(id), 1L, jsvalTodo.name, jsvalTodo.content))
-            )
+            _ <- TodoRepository.update(Todo(Some(id), 1L, jsvalTodo.name, jsvalTodo.content))
           } yield NoContent
-        }
       )
   }
 
@@ -89,12 +75,8 @@ class TodoController @Inject()(
    */
   def delete(id: Long) = Action async {
     implicit request =>
-      val db = Database.forConfig(DB_CONFIG)
-      val tableQuery = TableQuery[Todo]
       for {
-        _ <- db.run(
-          tableQuery.filter(_.id === id).delete
-        )
+        _ <- TodoRepository.delete(id)
       } yield NoContent
   }
 
