@@ -5,6 +5,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import net.syrup16g.todo.db.slick.Tables._
 import play.api.libs.json.{JsError, Json}
+import net.syrup16g.todo.repositories.TodoRepository
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -21,13 +22,9 @@ class TodoController @Inject()(
   def index() = Action async { // asyncで非同期化(returnがfutureに)
     implicit request: Request[AnyContent] =>
 
-      //TODO: 毎回呼び出すのはアホらしいのでRepositoryにするなど、まとめる
-      val db = Database.forConfig(DB_CONFIG)
-      val tableQuery = TableQuery[Todo]
-
       // flatmap, map展開なので最終的にはDBのreturnに引っ張られてFuture型
       for {
-        result <- db.run(tableQuery.sortBy(_.id.asc).result)
+        result <- TodoRepository.findAll
       } yield {
         import net.syrup16g.todo.json.writes.JsValTodo
         val jsons = result.map { todo =>
