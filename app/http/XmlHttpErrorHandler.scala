@@ -102,6 +102,8 @@ class XmlHttpErrorHandler (environment: Environment, sourceMapper: Option[Source
       ))
     } catch {
       case NonFatal(e) => Future.successful(InternalServerError)
+    } finally {
+      exception.printStackTrace()
     }
   }
 

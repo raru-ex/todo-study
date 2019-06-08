@@ -44,6 +44,7 @@ class MyHtmlOrJsonErrorHandler @Inject() (
   override def onServerError(request:  RequestHeader, exception: Throwable): Future[Result] = {
     println("========== called onServerError ==========")
     println(request.acceptedTypes)
+    exception.printStackTrace()
 
     // html, jsonしか想定してない前提で処理を分岐
     preferredMediaTypeName(request, CONTENT_TYPE_JSON) match {

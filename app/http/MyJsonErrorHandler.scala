@@ -28,6 +28,7 @@ extends DefaultHttpErrorHandler {
   override def onClientError(request:  RequestHeader, statusCode:  Int, message: String): Future[Result] = {
     println("========== called json onClientError ==========")
     println(request.acceptedTypes)
+    println(message)
 
     Future.successful(Results.Status(statusCode)(Json.obj("error" -> Json.obj(
       "code"    -> statusCode,
@@ -46,6 +47,7 @@ extends DefaultHttpErrorHandler {
         isProd,
         exception
       )
+    exception.printStackTrace()
 
     Future.successful(Results.InternalServerError(Json.obj("error" -> Json.obj(
       "code"    -> "BE001",
