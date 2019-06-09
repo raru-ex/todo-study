@@ -2,30 +2,36 @@ package net.syrup16g.todo.db.slick
 
 import slick.jdbc.MySQLProfile.api._
 import net.syrup16g.todo.db.model.User
+import net.syrup16g.todo.db.slick.mapping.{MySQLDateTime, SlickTypeMapper}
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 trait UserSlickModel extends BaseQuery[UserTable] {
   val query = new TableQuery(tag => new UserTable(tag))
 }
 
-class UserTable(_tableTag: Tag) extends Table[User](_tableTag, Some("todo"), "user") {
-    def * = (id, nickname, mail, password, createdAt, updatedAt) <> (User.tupled, User.unapply)
+class UserTable(_tableTag: Tag) extends Table[User](_tableTag, Some("todo"), "user") with SlickTypeMapper {
+
+  def * = (id, nickname, mail, password, createdAt, updatedAt) <> (
+    (v: (Option[Long], String, String, String, MySQLDateTime, MySQLDateTime)) =>
+      User(v._1, v._2, v._3, v._4, v._5.toLocalDateTime, v._6.toLocalDateTime),
+      (user: User) => User.unapply(user).map( v => (
+        v._1, v._2, v._3, v._4,
+        MySQLDateTime(v._5),
+        MySQLDateTime(LocalDateTime.now)
+      )
+    )
+  )
 
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(id), Rep.Some(nickname), Rep.Some(mail), Rep.Some(password), Rep.Some(createdAt), Rep.Some(updatedAt))).shaped.<>({r=>import r._; _1.map(_=> User.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(id), Rep.Some(nickname), Rep.Some(mail), Rep.Some(password), Rep.Some(createdAt), Rep.Some(updatedAt))).shaped.<>({r=>import r._; _1.map(_=> User.tupled((_1.get, _2.get, _3.get, _4.get, _5.get.toLocalDateTime, _6.get.toLocalDateTime)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column id SqlType(BIGINT UNSIGNED), AutoInc, PrimaryKey */
-    val id: Rep[Option[Long]] = column[Option[Long]]("id", O.AutoInc, O.PrimaryKey)
-    /** Database column nickname SqlType(VARCHAR), Length(255,true) */
-    val nickname: Rep[String] = column[String]("nickname", O.Length(255,varying=true))
-    /** Database column mail SqlType(VARCHAR), Length(255,true) */
-    val mail: Rep[String] = column[String]("mail", O.Length(255,varying=true))
-    /** Database column password SqlType(VARCHAR), Length(100,true) */
-    val password: Rep[String] = column[String]("password", O.Length(100,varying=true))
-    /** Database column created_at SqlType(TIMESTAMP) */
-    val createdAt: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("created_at")
-    /** Database column updated_at SqlType(TIMESTAMP) */
-    val updatedAt: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("updated_at")
+    val id = column[Option[Long]]("id", O.AutoInc, O.PrimaryKey)
+    val nickname = column[String]("nickname", O.Length(255,varying=true))
+    val mail = column[String]("mail", O.Length(255,varying=true))
+    val password = column[String]("password", O.Length(100,varying=true))
+    val createdAt = column[MySQLDateTime]("created_at")
+    val updatedAt = column[MySQLDateTime]("updated_at")
 
-    /** Uniqueness Index over (nickname) (database name unique_idx_nickname) */
     val index1 = index("unique_idx_nickname", nickname, unique=true)
   }
