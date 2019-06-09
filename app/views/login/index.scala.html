@@ -1,1 +1,13 @@
-<p>hello world<p>
+@import helper._
+
+@layout.main(title = "Todo - Login") {
+
+  @* 
+  <p>Login</p>
+  @form(action = helper.CSRF(routes.LoginController.login)) {
+    <fieldset>
+    </fieldset>
+  }
+  *@
+}
+

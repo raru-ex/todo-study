@@ -4,6 +4,8 @@
 # routes
 
 GET     /login                      net.syrup16g.todo.controllers.LoginController.index
+GET     /user/create                net.syrup16g.todo.controllers.user.RegisterController.create
+POST    /user/store                 net.syrup16g.todo.controllers.user.RegisterController.store
 
 # assets
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
