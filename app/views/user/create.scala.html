@@ -11,10 +11,11 @@
   <p>Register User<p>
   @helper.form(action = helper.CSRF(net.syrup16g.todo.controllers.user.routes.RegisterController.store)) {
     <fieldset>
-      @helper.inputText(signUpForm("nickname"), '_label -> "名前", '_error -> signUpForm.error("nickname"))
-      @helper.inputText(signUpForm("email"),    '_label -> "メールアドレス", '_error -> signUpForm.error("email"))
-      @helper.inputPassword(signUpForm("password.main"),    '_label -> "パスワード", '_error -> signUpForm.error("password"))
-      @helper.inputPassword(signUpForm("password.confirm"), '_label -> "パスワード (確認)", '_help -> "もう一度入力してください")
+      @helper.inputText(signUpForm("nickname"), '_label -> "名前")
+      @helper.inputText(signUpForm("mail"),    '_label -> "メールアドレス")
+      @helper.inputPassword(signUpForm("password.main"),    '_label -> "パスワード")
+      @helper.inputPassword(signUpForm("password.confirm"), '_label -> "パスワード (確認)")
     </fieldset>
+    <input type="submit" value="登録">
   }
 }
