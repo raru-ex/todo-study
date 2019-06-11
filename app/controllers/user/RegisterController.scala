@@ -8,13 +8,12 @@ import net.syrup16g.todo.repositories.UserRepository
 import net.syrup16g.todo.db.model.User
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
-import net.syrup16g.todo.form._
+import net.syrup16g.todo.form.UserForm.signUpForm
 
 @Singleton
 class RegisterController @Inject()(
   cc: MessagesControllerComponents
 ) extends AbstractController(cc) with I18nSupport {
-  val signUpForm = UserForm.createSignUpForm
 
   /**
    * 画面表示

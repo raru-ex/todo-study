@@ -12,7 +12,7 @@ case class PasswordConfirm(main: String, confirm: String)
  */
 object UserForm {
 
-  def createSignUpForm: Form[SignUp] = Form(
+  lazy val signUpForm: Form[SignUp] = Form(
     mapping(
       "nickname" -> nonEmptyText(maxLength = 255),
       "mail"     -> nonEmptyText.verifying(Constraints.emailAddress),

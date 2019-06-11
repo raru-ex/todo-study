@@ -9,7 +9,8 @@
 @layout.main(title = "Todo - User登録") {
 
   <p>Register User<p>
-  @helper.form(action = helper.CSRF(net.syrup16g.todo.controllers.user.routes.RegisterController.store)) {
+  @helper.form(action = net.syrup16g.todo.controllers.user.routes.RegisterController.store) {
+    @helper.CSRF.formField
     <fieldset>
       @helper.inputText(signUpForm("nickname"), '_label -> "名前", '_showConstraints -> false)
       @helper.inputText(signUpForm("mail"),     '_label -> "メールアドレス", '_showConstraints -> false)
