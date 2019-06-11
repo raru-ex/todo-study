@@ -1,9 +1,9 @@
 @import views.html.helper
-@import net.syrup16g.todo.viewmodels.UserViewModel.signUpForm
+@import net.syrup16g.todo.form._
 @import play.api.i18n.Messages
 @import play.api.mvc.RequestHeader
 
-@()(implicit request: RequestHeader, messages: Messages)
+@(signUpForm: Form[SignUp])(implicit request: RequestHeader, messages: Messages)
 
 
 @layout.main(title = "Todo - User登録") {
@@ -11,10 +11,10 @@
   <p>Register User<p>
   @helper.form(action = helper.CSRF(net.syrup16g.todo.controllers.user.routes.RegisterController.store)) {
     <fieldset>
-      @helper.inputText(signUpForm("nickname"), '_label -> "名前")
-      @helper.inputText(signUpForm("mail"),    '_label -> "メールアドレス")
-      @helper.inputPassword(signUpForm("password.main"),    '_label -> "パスワード")
-      @helper.inputPassword(signUpForm("password.confirm"), '_label -> "パスワード (確認)")
+      @helper.inputText(signUpForm("nickname"), '_label -> "名前", '_showConstraints -> false)
+      @helper.inputText(signUpForm("mail"),     '_label -> "メールアドレス", '_showConstraints -> false)
+      @helper.inputPassword(signUpForm("password.main"),    '_label -> "パスワード", '_showConstraints -> false)
+      @helper.inputPassword(signUpForm("password.confirm"), '_label -> "パスワード (確認)", '_showConstraints -> false)
     </fieldset>
     <input type="submit" value="登録">
   }
