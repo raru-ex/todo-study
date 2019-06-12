@@ -1,13 +1,15 @@
-GET     /todo                  net.syrup16g.todo.controllers.TodoController.index
+GET     /todo                  net.syrup16g.todo.controllers.api.TodoController.index
 
 # TODO: 調査 急にcsrfが効きだしたので一旦停止
 +nocsrf
-POST    /todo                  net.syrup16g.todo.controllers.TodoController.create
-+nocsrf
-PUT     /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.TodoController.update(id: Long)
-+nocsrf
-DELETE  /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.TodoController.delete(id: Long)
+POST    /todo                  net.syrup16g.todo.controllers.api.TodoController.create
 
-GET     /todo/error1           net.syrup16g.todo.controllers.TodoController.error500
-POST    /todo/error2           net.syrup16g.todo.controllers.TodoController.errorJsonValidate
++nocsrf
+PUT     /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.api.TodoController.update(id: Long)
+
++nocsrf
+DELETE  /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.api.TodoController.delete(id: Long)
+
+GET     /todo/error1           net.syrup16g.todo.controllers.api.TodoController.error500
+POST    /todo/error2           net.syrup16g.todo.controllers.api.TodoController.errorJsonValidate
 

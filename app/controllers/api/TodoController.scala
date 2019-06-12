@@ -1,4 +1,4 @@
-package net.syrup16g.todo.controllers
+package net.syrup16g.todo.controllers.api
 
 import slick.jdbc.MySQLProfile.api._
 import javax.inject.{Inject, Singleton}
@@ -6,6 +6,7 @@ import play.api.mvc._
 import play.api.libs.json.{JsError, Json}
 import net.syrup16g.todo.repositories.TodoRepository
 import net.syrup16g.todo.db.model.Todo
+
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton

@@ -11,6 +11,11 @@ object UserRepository extends UserSlickModel {
     query.sortBy(user => user.id.asc).result
   }
 
+  def findByMail(mail: String): Future[Option[User]] = DBAction { _
+    .filter(_.mail === mail)
+    .result.headOption
+  }
+
   def insert(user: User): Future[Option[Long]] = DBAction { query =>
     (query returning query.map(_.id)) += user
   }

@@ -4,6 +4,7 @@ import play.api.data.Forms._
 import play.api.data.validation.Constraints
 
 // ========== Form Mapped case class
+case class Login(mail: String, password: String)
 case class SignUp(nickname: String, mail: String, password: PasswordConfirm)
 case class PasswordConfirm(main: String, confirm: String)
 
@@ -21,5 +22,12 @@ object UserForm {
           "confirm" -> nonEmptyText
         )(PasswordConfirm.apply)(PasswordConfirm.unapply).verifying(password => password.main == password.confirm)
       )(SignUp.apply)(SignUp.unapply)
+    )
+
+  lazy val loginForm: Form[Login] = Form(
+    mapping(
+      "mail" -> nonEmptyText,
+      "password" -> nonEmptyText
+      )(Login.apply)(Login.unapply)
     )
 }

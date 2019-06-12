@@ -1,13 +1,28 @@
-@import helper._
+@import views.html.helper
+@import net.syrup16g.todo.form._
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
 
-@layout.main(title = "Todo - Login") {
+@(form: Form[Login])(implicit request: RequestHeader, messages: Messages)
 
-  @* 
-  <p>Login</p>
-  @form(action = helper.CSRF(routes.LoginController.login)) {
-    <fieldset>
-    </fieldset>
+
+@layout.main(title = "Todo - ログイン") {
+
+  @if(form.hasGlobalErrors) {
+    <ul>
+      @for(error <- form.globalErrors) {
+        <li>@error.format</li>
+      }
+    </ul>
   }
-  *@
-}
 
+  <p>Login</p>
+  @helper.form(action = net.syrup16g.todo.controllers.routes.LoginController.login) {
+    @helper.CSRF.formField
+    <fieldset>
+      @helper.inputText(form("mail"),         '_label -> "メールアドレス", '_showConstraints -> false)
+      @helper.inputPassword(form("password"), '_label -> "パスワード",     '_showConstraints -> false)
+    </fieldset>
+    <input type="submit" value="ログイン">
+  }
+}
