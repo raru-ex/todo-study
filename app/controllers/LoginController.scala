@@ -24,7 +24,6 @@ class LoginController @Inject()(
   def login() = Action async { implicit request: Request[AnyContent] =>
     loginForm.bindFromRequest.fold(
       errors => {
-        println("error")
         Future.successful(BadRequest(views.html.login.index(errors)))
       },
       form => {
@@ -33,7 +32,6 @@ class LoginController @Inject()(
         for {
           userOpt <- UserRepository.findByMail(form.mail)
           } yield {
-            println(userOpt)
             val isAuthenticated = userOpt match {
               case Some(user) => bcryptEncoder.matches(form.password, user.password)
               case _          => false
@@ -43,7 +41,6 @@ class LoginController @Inject()(
             isAuthenticated match {
               case true  => Redirect("/")
               case false =>
-                println("pass error")
                 BadRequest(views.html.login.index(loginForm.withGlobalError("ログイン情報が正しくありません")))
             }
           }
