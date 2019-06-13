@@ -8,6 +8,8 @@ import net.syrup16g.todo.repositories.UserRepository
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 import net.syrup16g.todo.form.UserForm.loginForm
+import pdi.jwt.JwtSession
+import pdi.jwt.JwtAlgorithm
 
 @Singleton
 class LoginController @Inject()(

@@ -10,12 +10,12 @@ scalaVersion := "2.12.7"
 libraryDependencies += guice
 libraryDependencies ++= Seq(
   jdbc,
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
-  "com.typesafe.slick" %% "slick" % "3.3.1",
-  "com.typesafe.slick" %% "slick-codegen" % "3.3.1",
-  "com.typesafe.slick" %% "slick-hikaricp" % "3.3.1",
-  "mysql" % "mysql-connector-java" % "6.0.6",
-  "org.springframework.security" % "spring-security-web" % "5.1.5.RELEASE"
+  "org.scalatestplus.play"      %% "scalatestplus-play"   % "3.1.2" % Test,
+  "com.typesafe.slick"          %% "slick"                % "3.3.1",
+  "com.typesafe.slick"          %% "slick-codegen"        % "3.3.1",
+  "com.typesafe.slick"          %% "slick-hikaricp"       % "3.3.1",
+  "mysql"                        % "mysql-connector-java" % "6.0.6",
+  "org.springframework.security" % "spring-security-web"  % "5.1.5.RELEASE",
 )
 
 // Add SBT Command
