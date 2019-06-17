@@ -9,7 +9,7 @@ import play.api.ConfigLoader
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigList
 import scala.math._
-import java.security.KeyFactory
+import java.security.{KeyFactory, Key}
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 import java.util.{ Base64 => jBase64 }
@@ -26,11 +26,20 @@ class JwtEncoder (
     val jwtCommon = config.get[JwtCommonConfiguration](s"${path}.common")
     val keyConfig = getKeyForSignaturea(jwtKeySeq, alg)
 
-    val encodedHeader = Base64.encodeBase64URLSafeString(createHeader(keyConfig))
-    val encodedClaim  = Base64.encodeBase64URLSafeString(createClaim(jwtCommon, data))
+    val encodedHeader = jsonToBase64(createHeader(keyConfig))
+    val encodedClaim  = jsonToBase64(createClaim(jwtCommon, data))
     val signatureSeed = encodedHeader + "." + encodedClaim
-    val signature = Base64.encodeBase64URLSafeString(encryptWithRSA(keyConfig.key, signatureSeed.getBytes()))
+    val signature     = Base64.encodeBase64URLSafeString(encryptWithRSA(keyConfig.key, signatureSeed.getBytes))
     signatureSeed + "." + signature
+  }
+
+  def authenticate(jwt: String): Boolean = try {
+    false
+  } catch {
+    case e: Exception =>
+      e.printStackTrace
+      // TODO: 不正な操作です系エラーに置き換え
+      throw new Exception("invalid jwt format")
   }
 
   /**
@@ -38,22 +47,10 @@ class JwtEncoder (
    */
   def decode(jwt: String) = try {
     val pubkeyStr = "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujcxG1uhew29u2NQUpRD\niTfv8peHgqGfX1CyKzgThvzelZ81s0I6Ni1CVk3O62Qo9bxsOwpd94EP15ZFxsFm\nsFHig/jyGIbxtrpgdDA4ndzOOArW4wGND9hGgTlH+qKiRjtozZpImq0hODTKuscl\nm5uTRq/DkKDbCTbZ6d3O17rvfEYjVq1ZHQ6WPqMrdriINtwNxIxqIfCl2FGvHAat\nxl1TIyJ1+Lwa0Elz/U0JXJE6XtzZZxFeyO8jVrNg0PK+EaHQ5IdcnhAOV0L4YJPE\ny+vUqlEF//dHiCRG50sMMTKa+KPcKKBlx6UyV0uMbvhmKleZiQlHWppIGvjBzGzA\nYQIDAQAB\n-----END PUBLIC KEY-----"
-    println("=============================== split ================================")
     val parts = jwt.split("\\.")
-    println("=============================== start decode ================================")
-    println("=============================== header ================================")
-    println(new String(Base64.decodeBase64(parts(0).getBytes), StandardCharsets.UTF_8))
-    println("=============================== claim ================================")
-    println(new String(Base64.decodeBase64(parts(1).getBytes), StandardCharsets.UTF_8))
-    println("=============================== signature  ================================")
     val signatureSeed = new String(decryptWithRSA(pubkeyStr, Base64.decodeBase64(parts(2).getBytes)), StandardCharsets.UTF_8)
     println(signatureSeed)
     val seeds = signatureSeed.split("\\.")
-    println("=============================== signature seed ================================")
-    println(seeds)
-    println("=============================== signature seed ================================")
-    println(new String(Base64.decodeBase64(seeds(0).getBytes), StandardCharsets.UTF_8))
-    println(new String(Base64.decodeBase64(seeds(1).getBytes), StandardCharsets.UTF_8))
   } catch {
     case e: Exception =>
       e.printStackTrace
@@ -62,40 +59,40 @@ class JwtEncoder (
   }
 
 
-  private def encryptWithRSA(key: String, target: Array[Byte]): Array[Byte] = {
-    val r = s"-{5}.*-{5}".r
-    val keyContent = r.replaceAllIn(key, "").replaceAll("\\n", "")
-    println(keyContent)
-    val kf = KeyFactory.getInstance("RSA")
-    val privateKey = kf.generatePrivate(new PKCS8EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
-
-    val cipher = Cipher.getInstance("RSA")
-    cipher.init(Cipher.ENCRYPT_MODE, privateKey)
-    cipher.doFinal(target)
+  private def encryptWithRSA(key: String, target: Array[Byte]) = {
+    rsaCrypt(Cipher.ENCRYPT_MODE, key, target, { (kf, keyContent) =>
+      kf.generatePrivate(new PKCS8EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
+    })
   }
 
+  private def decryptWithRSA(key: String, target: Array[Byte]) = {
+    rsaCrypt(Cipher.DECRYPT_MODE, key, target, { (kf, keyContent) =>
+      kf.generatePublic(new X509EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
+    })
+  }
 
-  private def decryptWithRSA(key: String, target: Array[Byte]): Array[Byte] = {
+  private def rsaCrypt(mode: Int, key: String, target: Array[Byte], f: (KeyFactory, String) => Key) = {
     val r = s"-{5}.*-{5}".r
     val keyContent = r.replaceAllIn(key, "").replaceAll("\\n", "")
-    val kf = KeyFactory.getInstance("RSA")
-    val publicKey = kf.generatePublic(new X509EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
 
+    val kf = KeyFactory.getInstance("RSA")
     val cipher = Cipher.getInstance("RSA")
-    cipher.init(Cipher.DECRYPT_MODE, publicKey)
+    cipher.init(mode, f(kf, keyContent))
     cipher.doFinal(target)
   }
 
   private def createHeader(config: JwtKeyConfiguration) = Json.obj(
     "alg" -> config.alg,
     "typ" -> config.typ
-  ).toString.getBytes
+  )
 
   private def createClaim(commonConfig: JwtCommonConfiguration, data: JsObject) = {
     Json.obj(
       "iss" -> commonConfig.iss
-      ).deepMerge(data).toString.getBytes
+      ).deepMerge(data)
   }
+
+  private def jsonToBase64(json: JsObject): String = Base64.encodeBase64URLSafeString(json.toString.getBytes)
 
   private def getKeyForSignaturea(confSeq: Seq[JwtKeyConfiguration], alg: String = defaultAlgorithm) = {
     val filteredConfSeq = confSeq.filter(_.alg == alg)

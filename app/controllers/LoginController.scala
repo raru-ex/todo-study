@@ -22,10 +22,6 @@ class LoginController @Inject()(
    * ログイン画面表示
    */
   def index() = Action { implicit request: Request[AnyContent] =>
-    val encoder = new JwtEncoder(config)
-    val jwt = encoder.encode("RS256", Json.obj("test" -> "test"))
-        println(jwt)
-        encoder.decode(jwt)
     Ok(views.html.login.index(loginForm))
   }
 
