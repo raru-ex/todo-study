@@ -11,7 +11,7 @@ case class PasswordConfirm(main: String, confirm: String)
 /**
  * User related From creator
  */
-object UserForm {
+trait UserForm {
 
   lazy val signUpForm: Form[SignUp] = Form(
     mapping(

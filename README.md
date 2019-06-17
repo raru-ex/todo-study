@@ -30,3 +30,12 @@ angular 8
     - Validatorのエラー表示 (未対応)
 - logging (未完了)
 
+# メモ
+
+## create private key
+
+```
+openssl genrsa -out {keyname} 2048
+openssl rsa -pubout < {keyname} > {pub_keyname}
+openssl pkcs8 -in {keyname} -out {converted_keyname} -topk8 -nocrypt 
+```

@@ -18,7 +18,7 @@
   * the specific language governing permissions and limitations under the License.
 */
 
-package net.syrup16g.todo.http
+package net.syrup16g.todo.http.exception
 
 import javax.inject.Inject
 import play.api._

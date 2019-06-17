@@ -7,22 +7,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import net.syrup16g.todo.repositories.UserRepository
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
-import net.syrup16g.todo.form.UserForm.loginForm
-import pdi.jwt.JwtSession
-import pdi.jwt.JwtAlgorithm
+import net.syrup16g.todo.form.UserForm
+import net.syrup16g.todo.http.auth.JwtEncoder
+import play.api.libs.json._
+import play.api.Configuration
 
 @Singleton
 class LoginController @Inject()(
-  cc: MessagesControllerComponents
-) extends AbstractController(cc) with I18nSupport {
+  cc: MessagesControllerComponents,
+  config: Configuration
+) extends AbstractController(cc) with I18nSupport with UserForm {
 
   /**
    * ログイン画面表示
    */
   def index() = Action { implicit request: Request[AnyContent] =>
+    val encoder = new JwtEncoder(config)
+    val jwt = encoder.encode("RS256", Json.obj("test" -> "test"))
+        println(jwt)
+        encoder.decode(jwt)
     Ok(views.html.login.index(loginForm))
   }
 
+  /**
+   * ログイン処理
+   */
   def login() = Action async { implicit request: Request[AnyContent] =>
     loginForm.bindFromRequest.fold(
       errors => {
