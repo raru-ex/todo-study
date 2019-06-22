@@ -1,6 +1,7 @@
 package net.syrup16g.todo.db.codegen
 
 import slick.codegen.SourceCodeGenerator
+import slick.jdbc.MySQLProfile.api._
 
 object SlickCodeGenerator extends App {
   //TODO: application.confから取得

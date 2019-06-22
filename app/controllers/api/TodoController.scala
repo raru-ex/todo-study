@@ -14,7 +14,6 @@ class TodoController @Inject()(
   cc: ControllerComponents,
   implicit val ec: ExecutionContext
 ) extends AbstractController(cc) {
-  val DB_CONFIG = "slick.dbs.default.db"
 
   /**
     * DBからTODOを全件取得して返す
