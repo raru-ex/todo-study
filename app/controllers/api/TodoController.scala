@@ -8,17 +8,22 @@ import net.syrup16g.todo.repositories.TodoRepository
 import net.syrup16g.todo.db.model.Todo
 
 import scala.concurrent.{ExecutionContext, Future}
+import net.syrup16g.todo.http.refiner.AuthedControllerComponents
+import net.syrup16g.todo.http.refiner.AuthedController
+import play.api.Configuration
 
 @Singleton
 class TodoController @Inject()(
-  cc: ControllerComponents,
-  implicit val ec: ExecutionContext
-) extends AbstractController(cc) {
+  cc: AuthedControllerComponents
+)(
+  implicit val ec: ExecutionContext,
+  conf: Configuration
+) extends AuthedController(cc) {
 
   /**
     * DBからTODOを全件取得して返す
     */
-  def index() = Action async { // asyncで非同期化(returnがfutureに)
+  def index() = Action andThen Authenticate async { // asyncで非同期化(returnがfutureに)
     implicit request: Request[AnyContent] =>
 
       // flatmap, map展開なので最終的にはDBのreturnに引っ張られてFuture型

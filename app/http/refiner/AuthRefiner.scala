@@ -28,6 +28,7 @@ class AuthRefiner @Inject()()(implicit ec: ExecutionContext, conf: Configuration
           }
         }
       case None      =>
+        // ajax通信でredirectできてないっぽい??
         Future.successful(Left(Results.Redirect("/login")))
     }
   }
@@ -46,4 +47,6 @@ case class AuthedControllerComponents @Inject()(
   executionContext: scala.concurrent.ExecutionContext
 ) extends ControllerComponents
 
-class AuthedController @Inject()(acc: AuthedControllerComponents) extends AbstractController(acc)
+class AuthedController @Inject()(acc: AuthedControllerComponents) extends AbstractController(acc) {
+  def Authenticate: AuthRefiner = acc.authRefiner
+}

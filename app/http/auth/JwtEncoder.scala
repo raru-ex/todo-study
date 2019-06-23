@@ -65,8 +65,8 @@ class JwtEncoder (
 
   def getUserId(jwt: String): Long = {
     val parts = jwt.split("\\.")
-    val headerJson = Json.parse(Base64.decodeBase64(parts(0).getBytes))
-    (headerJson \ "user_id").as[Long]
+    val claimJson = Json.parse(Base64.decodeBase64(parts(1).getBytes))
+    (claimJson \ "user_id").as[Long]
   }
 
   /**
