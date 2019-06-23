@@ -8,7 +8,7 @@ import net.syrup16g.todo.repositories.UserRepository
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 import net.syrup16g.todo.form.UserForm
-import net.syrup16g.todo.http.auth.JwtEncoder
+import net.syrup16g.todo.http.auth.{JwtEncoder, JwtCookie}
 import play.api.libs.json._
 import play.api.Configuration
 
@@ -16,7 +16,8 @@ import play.api.Configuration
 class LoginController @Inject()(
   cc: MessagesControllerComponents,
   config: Configuration
-) extends AbstractController(cc) with I18nSupport with UserForm {
+) extends AbstractController(cc)
+  with I18nSupport with UserForm with JwtCookie {
 
   /**
    * ログイン画面表示
@@ -34,20 +35,18 @@ class LoginController @Inject()(
         Future.successful(BadRequest(views.html.login.index(errors)))
       },
       form => {
-        // TODO: refactor. もう少し一つにまとめられる気がする
         val bcryptEncoder = new BCryptPasswordEncoder()
         for {
           userOpt <- UserRepository.findByMail(form.mail)
           } yield {
-            val isAuthenticated = userOpt match {
-              case Some(user) => bcryptEncoder.matches(form.password, user.password)
-              case _          => false
-            }
-
-            // TODO: 認証系処理
-            isAuthenticated match {
-              case true  => Redirect("/")
-              case false =>
+            userOpt match {
+              case Some(user) if bcryptEncoder.matches(form.password, user.password) =>
+                Redirect("/").withCookies(
+                  new Cookie(
+                    COOKIE_KEY_NAME,
+                    new JwtEncoder(config).encode(Json.obj("user_id" -> user.id))
+                  ))
+              case _          =>
                 BadRequest(views.html.login.index(loginForm.withGlobalError("ログイン情報が正しくありません")))
             }
           }

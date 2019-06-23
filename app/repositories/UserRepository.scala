@@ -7,6 +7,11 @@ import net.syrup16g.todo.db.slick.UserSlickModel
 
 object UserRepository extends UserSlickModel {
 
+  def find(id: Long): Future[Option[User]] = DBAction { _
+    .filter(_.id === id)
+    .result.headOption
+  }
+
   def findAll: Future[Seq[User]] = DBAction { query =>
     query.sortBy(user => user.id.asc).result
   }
