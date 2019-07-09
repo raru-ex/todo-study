@@ -16,7 +16,9 @@ angular 8
     - CustomErrorHandlerサンプル (完了)
     - JsonValidatorのエラーサンプル (未完了)
     - エラーメッセージ管理 (未完了)
-- 認証処理 (未完了)
+- 認証処理
+    - JWTのRSA認証追加 (完了)
+    - session filter (未実装)
 - logging (未完了)
   
 [Angular]  
