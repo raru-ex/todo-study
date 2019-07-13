@@ -1,6 +1,7 @@
 package net.syrup16g.todo.http.refiner
 
 import play.api.mvc._
+import play.api.mvc.Results.Unauthorized
 import net.syrup16g.todo.repositories.UserRepository
 import net.syrup16g.todo.db.model.User
 import net.syrup16g.todo.http.auth.{Jwt, JwtSession}
@@ -27,11 +28,11 @@ class AuthRefiner @Inject()()(implicit ec: ExecutionContext, implicit val conf: 
         } yield {
           userOpt match {
             case Some(user) => Right(new UserRequest[A](user, request))
-            case None       => throw new SessionAuthenticationException("Authentication is invalid")
+            case None       => Left(Unauthorized("Authentication is invalid"))
           }
         }
       case None      =>
-        throw new SessionAuthenticationException("Authentication is invalid")
+       Future.successful(Left(Unauthorized("Authentication is invalid")))
     }
   }
 

@@ -1,17 +1,17 @@
 {
   "/api/*": {
-    "target": "http://localhost:9000",
-    "secure": false,
+    "target":   "http://localhost:9000",
+    "secure":   false,
     "logLevel": "debug"
   },
   "/login": {
-    "target": "http://localhost:9000",
-    "secure": false,
+    "target":   "http://localhost:9000",
+    "secure":   false,
     "logLevel": "debug"
   },
   "/user/*": {
-    "target": "http://localhost:9000",
-    "secure": false,
+    "target":   "http://localhost:9000",
+    "secure":   false,
     "logLevel": "debug"
   }
 }
