@@ -8,16 +8,16 @@ import net.syrup16g.todo.repositories.UserRepository
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 import net.syrup16g.todo.form.UserForm._
-import net.syrup16g.todo.http.auth.{JwtEncoder, JwtCookie}
+import net.syrup16g.todo.http.auth.{Jwt, JwtSession}
 import play.api.libs.json._
 import play.api.Configuration
 
 @Singleton
 class LoginController @Inject()(
   cc: MessagesControllerComponents,
-  config: Configuration
+  implicit val config: Configuration
 ) extends AbstractController(cc)
-  with I18nSupport with JwtCookie {
+  with I18nSupport {
 
   /**
    * ログイン画面表示
@@ -43,8 +43,8 @@ class LoginController @Inject()(
               case Some(user) if bcryptEncoder.matches(form.password, user.password) =>
                 Redirect("/").withCookies(
                   new Cookie(
-                    COOKIE_KEY_NAME,
-                    new JwtEncoder(config).encode(Json.obj("user_id" -> user.id))
+                    JwtSession.getCookieName(),
+                    Jwt.encode(Json.obj("user_id" -> user.id))
                   ))
               case _          =>
                 BadRequest(views.html.login.index(loginForm.withGlobalError("ログイン情報が正しくありません")))

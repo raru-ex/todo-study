@@ -3,33 +3,35 @@ package net.syrup16g.todo.http.refiner
 import play.api.mvc._
 import net.syrup16g.todo.repositories.UserRepository
 import net.syrup16g.todo.db.model.User
-import net.syrup16g.todo.http.auth.{JwtEncoder, JwtCookie}
+import net.syrup16g.todo.http.auth.{Jwt, JwtSession}
 import scala.concurrent.{Future, ExecutionContext}
 import play.api.mvc.Results
 import javax.inject.{Singleton, Inject}
 import play.api.Configuration
 import play.api.i18n.{Langs, MessagesApi}
 import play.api.http.FileMimeTypes
+import org.springframework.security.web.authentication.session.SessionAuthenticationException
 
 class UserRequest[A](user: User, request: Request[A]) extends WrappedRequest[A](request)
 
-class AuthRefiner @Inject()()(implicit ec: ExecutionContext, conf: Configuration) extends ActionRefiner[Request, UserRequest] with JwtCookie {
+class AuthRefiner @Inject()()(implicit ec: ExecutionContext, implicit val conf: Configuration) extends ActionRefiner[Request, UserRequest] {
+
   protected def refine[A](request: Request[A]): Future[Either[Result, UserRequest[A]]] = {
-    val jwtEncoder = new JwtEncoder(conf)
-    request.cookies.get(COOKIE_KEY_NAME) match {
-      case Some(jwt: Cookie) if jwtEncoder.authenticate(jwt.value) =>
-        val userId = jwtEncoder.getUserId(jwt.value)
+
+    request.cookies.get(JwtSession.getCookieName()) match {
+      case Some(jwtCookie: Cookie) =>
+        val jwt = Jwt(jwtCookie.value)
+        val userId = jwt.getUserId
         for {
           userOpt <- UserRepository.find(userId)
         } yield {
           userOpt match {
             case Some(user) => Right(new UserRequest[A](user, request))
-            case None       => Left(Results.Redirect("/login"))
+            case None       => throw new SessionAuthenticationException("Authentication is invalid")
           }
         }
       case None      =>
-        // ajax通信でredirectできてないっぽい??
-        Future.successful(Left(Results.Redirect("/login")))
+        throw new SessionAuthenticationException("Authentication is invalid")
     }
   }
 

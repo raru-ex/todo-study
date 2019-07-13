@@ -17,23 +17,60 @@ import java.nio.charset.StandardCharsets
 
 /**
  * Jwt処理用クラス
+ * TODO: カオスってるのでリファクタ
  */
-class JwtEncoder (
-  val config: Configuration,
-  val path:   String = "play.http.jwt.setting"
+case class Jwt (
+  header:    JsObject,
+  claim:     JsObject,
+  signature: String
+)(
+  implicit val config: Configuration
 ) {
+
+  /**
+   * claimからuserIdを取得
+   */
+  def getUserId: Long = (claim \ "user_id").as[Long]
+
+  /**
+   * 正しいJwtか検証
+   */
+  def isValid: Boolean = {
+    val kid = (this.header \ "kid").as[String]
+    val key = Jwt.getKeyByKid(kid)
+
+    signature == Base64.encodeBase64URLSafeString(
+      Jwt.encryptWithRSA(key, (header + "." + claim).getBytes))
+  }
+}
+
+object Jwt {
   val defaultAlgorithm = "RS256"
+  val configPath       = "play.http.jwt.setting"
+
+  /**
+   * Jwt文字列からJwtクラスを作成
+   */
+  def apply(jwtString: String)(implicit conf: Configuration): Jwt = {
+    val parts = splitJwt(jwtString)
+
+    new Jwt(
+      Json.parse(Base64.decodeBase64(parts._1.getBytes)).as[JsObject],
+      Json.parse(Base64.decodeBase64(parts._2.getBytes)).as[JsObject],
+      parts._3
+    )
+  }
 
   /**
    * RSA256でデータをjwtへエンコード
    */
-  def encode(data: JsObject): String = encode(defaultAlgorithm, data)
+  def encode(data: JsObject)(implicit conf: Configuration): String = encode(defaultAlgorithm, data)
 
   /**
    * 指定されたアルゴリズムでデータをjwtへエンコードする
    * TODO: RSAのみにしか対応していない
    */
-  def encode(alg: String, data: JsObject): String = {
+  def encode(alg: String, data: JsObject)(implicit conf: Configuration): String = {
     val jwtKeySeq = getKeyConfigs
     val jwtCommon = getKeyCommon
     val keyConfig = getKeyForSignature(jwtKeySeq, alg)
@@ -41,32 +78,8 @@ class JwtEncoder (
     val encodedHeader = jsonToBase64(createHeader(keyConfig))
     val encodedClaim  = jsonToBase64(createClaim(jwtCommon, data))
     val signatureSeed = encodedHeader + "." + encodedClaim
-    val signature     = Base64.encodeBase64URLSafeString(encryptWithRSA(keyConfig.key, signatureSeed.getBytes))
+    val signature     = Base64.encodeBase64URLSafeString(Jwt.encryptWithRSA(keyConfig.key, signatureSeed.getBytes))
     signatureSeed + "." + signature
-  }
-
-  /**
-   * JWTの認証を行う
-   * TODO: refactor
-   */
-  def authenticate(jwt: String): Boolean = try {
-    val parts = jwt.split("\\.")
-    val headerJson = Json.parse(Base64.decodeBase64(parts(0).getBytes))
-    val kid = (headerJson \ "kid").as[String]
-    val key = getKeyByKid(kid)
-
-    parts(2) == Base64.encodeBase64URLSafeString(encryptWithRSA(key, (parts(0) + "." + parts(1)).getBytes))
-  } catch {
-    case e: Exception =>
-      e.printStackTrace
-      // TODO: 不正な操作です系エラーに置き換え
-      throw new Exception("invalid jwt format")
-  }
-
-  def getUserId(jwt: String): Long = {
-    val parts = jwt.split("\\.")
-    val claimJson = Json.parse(Base64.decodeBase64(parts(1).getBytes))
-    (claimJson \ "user_id").as[Long]
   }
 
   /**
@@ -85,40 +98,6 @@ class JwtEncoder (
       e.printStackTrace
       // TODO: 不正な操作です系エラーに置き換え
       throw new Exception("invalid jwt format")
-  }
-
-  /**
-   * RSA256を暗号化する
-   * TODO: private keyを利用した暗号化しか検証していない
-   */
-
-  private def encryptWithRSA(key: String, target: Array[Byte]) = {
-    rsaCrypt(Cipher.ENCRYPT_MODE, key, target, { (kf, keyContent) =>
-      kf.generatePrivate(new PKCS8EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
-    })
-  }
-
-  /**
-   * RSA256を復号化する
-   * TODO: public keyを利用した復号化しか検証していない
-   */
-  private def decryptWithRSA(key: String, target: Array[Byte]) = {
-    rsaCrypt(Cipher.DECRYPT_MODE, key, target, { (kf, keyContent) =>
-      kf.generatePublic(new X509EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
-    })
-  }
-
-  /**
-   * RSA256処理のための共通処理
-   */
-  private def rsaCrypt(mode: Int, key: String, target: Array[Byte], f: (KeyFactory, String) => Key) = {
-    val r = s"-{5}.*-{5}".r
-    val keyContent = r.replaceAllIn(key, "").replaceAll("\\n", "")
-
-    val kf = KeyFactory.getInstance("RSA")
-    val cipher = Cipher.getInstance("RSA")
-    cipher.init(mode, f(kf, keyContent))
-    cipher.doFinal(target)
   }
 
   /**
@@ -159,8 +138,23 @@ class JwtEncoder (
     }
   }
 
+  /**
+   * jwtを検証する
+   */
+  def validate(jwtString: String)(implicit config: Configuration): Boolean = {
+    val parts = splitJwt(jwtString)
 
-  private def getKeyByKid(kid: String): String = {
+    val headerJson = Json.parse(Base64.decodeBase64(parts._1.getBytes))
+
+    // jwtに利用されている鍵を取得
+    val kid = (headerJson \ "kid").as[String]
+    val key = getKeyByKid(kid)
+
+    parts._3 == Base64.encodeBase64URLSafeString(
+      encryptWithRSA(key, (parts._1 + "." + parts._2).getBytes))
+  }
+
+  private def getKeyByKid(kid: String)(implicit conf: Configuration): String = {
     val keyConfigSeq = getKeyConfigs
     keyConfigSeq.filter(_.kid == kid).headOption match {
       case Some(conf) => conf.key
@@ -168,16 +162,61 @@ class JwtEncoder (
     }
   }
 
+  /**
+   * RSA256を暗号化する
+   * TODO: private keyを利用した暗号化しか検証していない
+   */
+  private def encryptWithRSA(key: String, target: Array[Byte]) = {
+    rsaCrypt(Cipher.ENCRYPT_MODE, key, target, { (kf, keyContent) =>
+      kf.generatePrivate(new PKCS8EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
+    })
+  }
+
+  /**
+   * RSA256を復号化する
+   * TODO: public keyを利用した復号化しか検証していない
+   */
+  private def decryptWithRSA(key: String, target: Array[Byte]) = {
+    rsaCrypt(Cipher.DECRYPT_MODE, key, target, { (kf, keyContent) =>
+      kf.generatePublic(new X509EncodedKeySpec(jBase64.getDecoder.decode(keyContent)))
+    })
+  }
+
+
+  /**
+   * RSA256処理のための共通処理
+   */
+  private def rsaCrypt(mode: Int, key: String, target: Array[Byte], f: (KeyFactory, String) => Key) = {
+    val r = s"-{5}.*-{5}".r
+    val keyContent = r.replaceAllIn(key, "").replaceAll("\\n", "")
+
+    val kf = KeyFactory.getInstance("RSA")
+    val cipher = Cipher.getInstance("RSA")
+    cipher.init(mode, f(kf, keyContent))
+    cipher.doFinal(target)
+  }
 
   /**
    * confファイルから鍵一覧を取得
    */
-  private def getKeyConfigs(): Seq[JwtKeyConfiguration] = config.get[Seq[JwtKeyConfiguration]](s"${path}.keys")
+  private def getKeyConfigs()(implicit config: Configuration): Seq[JwtKeyConfiguration] = config.get[Seq[JwtKeyConfiguration]](s"${configPath}.keys")
 
   /**
    * confファイルから共通設定を取得
    */
-  private def getKeyCommon(): JwtCommonConfiguration = config.get[JwtCommonConfiguration](s"${path}.common")
+  private def getKeyCommon()(implicit config: Configuration): JwtCommonConfiguration = config.get[JwtCommonConfiguration](s"${configPath}.common")
+
+
+
+  private def splitJwt(jwtString: String) = {
+    // header, claim, signatureに分割
+    val parts = jwtString.split("\\.")
+
+    parts.length match {
+      case 3 => (parts(0), parts(1), parts(2))
+      case _ => throw new Exception("invalid jwt format")
+    }
+  }
 }
 
 case class JwtKeyConfiguration (
@@ -190,10 +229,10 @@ case class JwtKeyConfiguration (
 
 object JwtKeyConfiguration {
   implicit val configLoader: ConfigLoader[Seq[JwtKeyConfiguration]] = new ConfigLoader[Seq[JwtKeyConfiguration]] {
-    def load(rootConfig: Config, path: String): Seq[JwtKeyConfiguration] = {
+    def load(rootConfig: Config, configPath: String): Seq[JwtKeyConfiguration] = {
       import scala.collection.JavaConverters._
 
-      val configList = rootConfig.getConfigList(path).asScala
+      val configList = rootConfig.getConfigList(configPath).asScala
       configList.map { config =>
         JwtKeyConfiguration(
           kid     = config.getString("kid"),
@@ -211,8 +250,8 @@ case class JwtCommonConfiguration(iss: String)
 
 object JwtCommonConfiguration {
   implicit val configLoader: ConfigLoader[JwtCommonConfiguration] = new ConfigLoader[JwtCommonConfiguration] {
-    def load(rootConfig: Config, path: String): JwtCommonConfiguration = {
-      val config = rootConfig.getConfig(path)
+    def load(rootConfig: Config, configPath: String): JwtCommonConfiguration = {
+      val config = rootConfig.getConfig(configPath)
       JwtCommonConfiguration(
         iss = config.getString("issuer")
       )

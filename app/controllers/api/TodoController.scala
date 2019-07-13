@@ -14,10 +14,10 @@ import play.api.Configuration
 
 @Singleton
 class TodoController @Inject()(
-  cc: AuthedControllerComponents
-)(
-  implicit val ec: ExecutionContext,
+  cc:   AuthedControllerComponents,
   conf: Configuration
+)(
+  implicit val ec: ExecutionContext
 ) extends AuthedController(cc) {
 
   /**
