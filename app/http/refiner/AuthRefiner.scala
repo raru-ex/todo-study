@@ -21,14 +21,14 @@ class AuthRefiner @Inject()()(implicit ec: ExecutionContext, implicit val conf: 
 
     request.cookies.get(JwtSession.getCookieName()) match {
       case Some(jwtCookie: Cookie) =>
-        val jwt = Jwt(jwtCookie.value)
-        val userId = jwt.getUserId
+        val jwt    = Jwt(jwtCookie.value)
+        val userId = jwt.claim.userId
         for {
           userOpt <- UserRepository.find(userId)
         } yield {
-          userOpt match {
-            case Some(user) => Right(new UserRequest[A](user, request))
-            case None       => Left(Unauthorized("Authentication is invalid"))
+          (jwt.isValid, userOpt) match {
+            case (true, Some(user)) => Right(new UserRequest[A](user, request))
+            case (_,    _)          => Left(Unauthorized("Authentication is invalid"))
           }
         }
       case None      =>

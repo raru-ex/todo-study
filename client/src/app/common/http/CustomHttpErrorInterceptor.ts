@@ -3,7 +3,8 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {DialogService} from '@app/service/dialog-service';
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router'
+import {MatDialogRef} from '@angular/material';
+import {DialogComponent} from '@app/service/dialog';
 
 
 /** Httpエラーのハンドリングを行うインターセプタ */
@@ -11,7 +12,6 @@ import {Router} from '@angular/router'
 export class CustomHttpErrorInterceptor implements HttpInterceptor {
   constructor(
     private dialog: DialogService,
-    private router: Router
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -37,7 +37,7 @@ export class CustomHttpErrorInterceptor implements HttpInterceptor {
    * エラーメッセージを表示する。
    * 一旦アラートで表示
    */
-  private showError(message): MatDialogRef<DialogComponent> {
+  private showError(message: string): MatDialogRef<DialogComponent> {
     return this.dialog.error('エラー', message);
   }
 

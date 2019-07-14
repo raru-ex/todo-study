@@ -11,6 +11,7 @@ import net.syrup16g.todo.form.UserForm._
 import net.syrup16g.todo.http.auth.{Jwt, JwtSession}
 import play.api.libs.json._
 import play.api.Configuration
+import net.syrup16g.todo.http.auth.{JwtHeader, JwtClaim, JwtConverter}
 
 @Singleton
 class LoginController @Inject()(
@@ -44,7 +45,7 @@ class LoginController @Inject()(
                 Redirect("/").withCookies(
                   new Cookie(
                     JwtSession.getCookieName(),
-                    Jwt.encode(Json.obj("user_id" -> user.id))
+                    JwtConverter.encode(JwtHeader(), JwtClaim(user.id.get))
                   ))
               case _          =>
                 BadRequest(views.html.login.index(loginForm.withGlobalError("ログイン情報が正しくありません")))
