@@ -14,7 +14,7 @@ import { AppComponent } from '@app/app.component';
 import { ErrorNotFoundComponent } from '@app/error';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
-import { TodoState } from '@app/state';
+import { TodoState, SessionState } from '@app/state';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomHttpErrorInterceptor } from '@app/common/http/CustomHttpErrorInterceptor';
@@ -55,7 +55,8 @@ import { DialogComponent } from '@app/service/dialog';
     FormsModule,
     ReactiveFormsModule,
     NgxsModule.forRoot([
-      TodoState
+      TodoState,
+      SessionState
     ])
   ],
   entryComponents: [

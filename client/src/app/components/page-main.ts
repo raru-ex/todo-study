@@ -5,6 +5,7 @@ import { TodoAddModalComponent } from '@app/components/modal';
 import { Store, Select, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TodoAction, TodoState } from '@app/state';
 import { Todo } from '@app/model';
+import { SessionAction } from '@app/state/session.actions';
 
 @Component({
   selector: 'page-main',
@@ -18,7 +19,7 @@ export class PageMainComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    public dialog: MatDialog,
+    public  dialog: MatDialog,
     private actions: Actions,
     private store: Store,
     private snackbar: MatSnackBar,
@@ -58,6 +59,10 @@ export class PageMainComponent implements OnInit, OnDestroy {
       disableClose: true,
       autoFocus: true
     });
+  }
+
+  logout() {
+    this.store.dispatch(new SessionAction.Logout())
   }
 
   onClickError(): void {

@@ -9,11 +9,11 @@ export interface TodoStateModel {
   selectedId: number;
 }
 
-export module CompanionTodoState {
+export module TodoStateConfig {
   export const UNIQUE_NAME = 'TodoStateModel';
 
   export const DEFAULT_STATE = {
-    name: CompanionTodoState.UNIQUE_NAME,
+    name: TodoStateConfig.UNIQUE_NAME,
     defaults: {
       todos: [],
       selectedId: -1
@@ -30,7 +30,7 @@ export module CompanionTodoState {
   };
 }
 
-@State<TodoStateModel>(CompanionTodoState.DEFAULT_STATE)
+@State<TodoStateModel>(TodoStateConfig.DEFAULT_STATE)
 export class TodoState {
   constructor(private http: HttpClient) {}
 
@@ -51,7 +51,7 @@ export class TodoState {
 
   @Action(TodoAction.Load)
   load(ctx: StateContext<TodoStateModel>) {
-    return this.http.get(CompanionTodoState.API.LOAD).pipe(
+    return this.http.get(TodoStateConfig.API.LOAD).pipe(
       tap((data: {rows: Todo[]}) => {
         ctx.setState({
             'todos': data.rows,
@@ -64,7 +64,7 @@ export class TodoState {
 
   @Action(TodoAction.Reload)
   reload(ctx: StateContext<TodoStateModel>) {
-    return this.http.get(CompanionTodoState.API.LOAD).pipe(
+    return this.http.get(TodoStateConfig.API.LOAD).pipe(
       tap((data: {rows: Todo[]}) => {
         ctx.patchState({
             'todos': data.rows
@@ -85,7 +85,7 @@ export class TodoState {
   create(ctx: StateContext<TodoStateModel>, action: TodoAction.Create) {
     const body = { name: action.payload.name, content: action.payload.content};
     return this.http.post(
-      CompanionTodoState.API.CREATE,
+      TodoStateConfig.API.CREATE,
       body
     ).pipe(
       tap(_ => {
@@ -98,7 +98,7 @@ export class TodoState {
   update(ctx: StateContext<TodoStateModel>, action: TodoAction.Update) {
     const body = action.payload;
     const url = this.bindUrlParams(
-      CompanionTodoState.API.UPDATE,
+      TodoStateConfig.API.UPDATE,
       { id: action.payload.id }
     );
     return this.http.put(
@@ -115,7 +115,7 @@ export class TodoState {
   @Action(TodoAction.Delete)
   delete(ctx: StateContext<TodoStateModel>, action: TodoAction.Delete) {
     const url = this.bindUrlParams(
-      CompanionTodoState.API.DELETE,
+      TodoStateConfig.API.DELETE,
       { id: action.payload.id }
     );
     return this.http.delete(url).pipe(
@@ -129,7 +129,7 @@ export class TodoState {
   @Action(TodoAction.ErrorTest)
   errorTest() {
     console.log('========== error test');
-    return this.http.get(CompanionTodoState.API.ERROR_TEST).pipe(
+    return this.http.get(TodoStateConfig.API.ERROR_TEST).pipe(
       tap(response => {
         console.log(response);
       })
@@ -139,7 +139,7 @@ export class TodoState {
   @Action(TodoAction.ErrorTestJson)
   errorJson() {
     console.log('========== json error test');
-    return this.http.post(CompanionTodoState.API.ERROR_TEST_JSON, { name: null }).pipe(
+    return this.http.post(TodoStateConfig.API.ERROR_TEST_JSON, { name: null }).pipe(
       tap(response => {
         console.log(response);
       })

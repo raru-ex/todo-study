@@ -1,3 +1,4 @@
+## Todo関連
 GET     /todo                  net.syrup16g.todo.controllers.api.TodoController.index
 
 # TODO: 調査 急にcsrfが効きだしたので一旦停止
@@ -13,3 +14,5 @@ DELETE  /todo/$id<[0-9]+>      net.syrup16g.todo.controllers.api.TodoController.
 GET     /todo/error1           net.syrup16g.todo.controllers.api.TodoController.error500
 POST    /todo/error2           net.syrup16g.todo.controllers.api.TodoController.errorJsonValidate
 
+## Session
+GET     /logout                net.syrup16g.todo.controllers.api.LogoutController.logout

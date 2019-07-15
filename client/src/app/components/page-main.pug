@@ -3,6 +3,7 @@ mat-toolbar#header(color="primary")
     span Raru TODO
     .right
       button(mat-raised-button, (click)="openAddModal()") TODOの追加
+      button(mat-raised-button, (click)="logout()") ログアウト
 mat-sidenav-container
   mat-sidenav.sidebar(mode="side", opened="true")
     ui-menu(
