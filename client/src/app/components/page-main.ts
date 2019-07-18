@@ -64,12 +64,4 @@ export class PageMainComponent implements OnInit, OnDestroy {
   logout() {
     this.store.dispatch(new SessionAction.Logout())
   }
-
-  onClickError(): void {
-    this.store.dispatch(new TodoAction.ErrorTest());
-  }
-
-  onClickErrorJson(): void {
-    this.store.dispatch(new TodoAction.ErrorTestJson());
-  }
 }

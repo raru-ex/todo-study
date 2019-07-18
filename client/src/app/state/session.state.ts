@@ -29,7 +29,7 @@ export class SessionState {
   @Action(SessionAction.Logout)
   logout(ctx: StateContext<SessionStateModel>) {
     console.log("logout")
-    return this.http.get(SessionStateConfig.API.LOGOUT).pipe(
+    return this.http.delete(SessionStateConfig.API.LOGOUT).pipe(
       tap(_ => {
         ctx.patchState(SessionStateConfig.DEFAULT_STATE.defaults)
         window.location.href = '/login'

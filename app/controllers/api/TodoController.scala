@@ -85,31 +85,4 @@ class TodoController @Inject()(
       } yield NoContent
   }
 
-  /**
-   * InternalServerErrorの挙動を検証する
-   */
-  def error500() = Action {
-    implicit request =>
-      println("called 500 error")
-      throw new IllegalArgumentException
-  }
-
-  /**
-   * jsonのvalidateエラーの動作を確認する
-   */
-  def errorJsonValidate() = Action(parse.json) {
-    implicit request =>
-      println("called json validate error")
-      import net.syrup16g.todo.json.reads.JsValTodo
-      val validate = request.body.validate[JsValTodo]
-      validate.fold(
-        errors => {
-          println("==============================")
-          println(errors.toString)
-          println("==============================")
-          BadRequest(Json.obj("message" -> "Json Parse Error"))
-        },
-        todo => Ok(Json.obj("status" -> "ok"))
-      )
-  }
 }
