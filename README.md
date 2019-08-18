@@ -18,8 +18,10 @@ angular 8
     - エラーメッセージ管理 (未完了)
 - 認証処理
     - JWTのRSA認証追加 (完了)
-    - session filter (未実装)
+    - session filter (完了)
 - logging (未完了)
+- Repositoryのreturnを調整。serviceでtransactionが切れるようにする
+- DIの方針を決める
   
 [Angular]  
 - ngrxサンプル (完了)

@@ -5,7 +5,6 @@ import javax.inject.{Singleton, Inject}
 import play.api.i18n.I18nSupport
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import net.syrup16g.todo.repositories.UserRepository
-import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 import net.syrup16g.todo.form.UserForm._
 import net.syrup16g.todo.http.auth.{Jwt, JwtSession}

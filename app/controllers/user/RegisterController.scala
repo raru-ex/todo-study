@@ -6,14 +6,15 @@ import play.api.i18n.I18nSupport
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import net.syrup16g.todo.repositories.UserRepository
 import net.syrup16g.todo.db.model.User
-import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 import net.syrup16g.todo.form.UserForm._
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class RegisterController @Inject()(
-  cc: MessagesControllerComponents
-) extends AbstractController(cc) with I18nSupport {
+  cc:             MessagesControllerComponents,
+  userRepository: UserRepository
+)(implicit ec: ExecutionContext) extends AbstractController(cc) with I18nSupport {
 
   /**
    * 画面表示
@@ -29,11 +30,12 @@ class RegisterController @Inject()(
       },
       form => {
         val bcryptEncoder = new BCryptPasswordEncoder()
-        val password = bcryptEncoder.encode(form.password.main)
-        val newUser = User(None, form.nickname, form.mail, password)
+        val password      = bcryptEncoder.encode(form.password.main)
+        val newUser       = User(None, form.nickname, form.mail, password)
         for {
-          idOpt <- UserRepository.insert(newUser)
+          idOpt <- userRepository.insert(newUser)
         } yield Redirect(routes.RegisterController.create())
-      })
+      }
+      )
   }
 }
