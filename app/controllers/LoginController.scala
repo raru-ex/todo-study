@@ -5,7 +5,6 @@ import javax.inject.{Singleton, Inject}
 import play.api.i18n.I18nSupport
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import net.syrup16g.todo.repositories.UserRepository
-import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 import net.syrup16g.todo.form.UserForm._
 import net.syrup16g.todo.http.auth.{Jwt, JwtSession}
@@ -14,14 +13,15 @@ import play.api.Configuration
 import net.syrup16g.todo.http.auth.{JwtHeader, JwtClaim, JwtConverter}
 import play.filters.csrf.CSRFAddToken
 import play.filters.csrf.CSRFCheck
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class LoginController @Inject()(
   cc: MessagesControllerComponents,
   addToken: CSRFAddToken,
   checkToken: CSRFCheck,
-  implicit val config: Configuration
-) extends AbstractController(cc)
+  userRepository: UserRepository
+) (implicit ec: ExecutionContext, implicit val config: Configuration) extends AbstractController(cc)
   with I18nSupport {
 
   /**
@@ -45,7 +45,7 @@ class LoginController @Inject()(
         form => {
           val bcryptEncoder = new BCryptPasswordEncoder()
           for {
-            userOpt <- UserRepository.findByMail(form.mail)
+            userOpt <- userRepository.findByMail(form.mail)
             } yield {
               userOpt match {
                 case Some(user) if bcryptEncoder.matches(form.password, user.password) =>

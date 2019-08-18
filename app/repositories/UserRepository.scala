@@ -4,8 +4,12 @@ import slick.jdbc.MySQLProfile.api._
 import net.syrup16g.todo.db.model.User
 import scala.concurrent.{ExecutionContext, Future}
 import net.syrup16g.todo.db.slick.UserSlickModel
+import javax.inject.{Singleton, Inject}
 
-object UserRepository extends UserSlickModel {
+@Singleton()
+class UserRepository @Inject()(
+  implicit ec: ExecutionContext
+) extends UserSlickModel {
 
   def find(id: Long): Future[Option[User]] = DBAction { _
     .filter(_.id === id)

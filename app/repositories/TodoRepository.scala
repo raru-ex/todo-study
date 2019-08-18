@@ -4,8 +4,12 @@ import slick.jdbc.MySQLProfile.api._
 import net.syrup16g.todo.db.model.Todo
 import scala.concurrent.{ExecutionContext, Future}
 import net.syrup16g.todo.db.slick.TodoSlickModel
+import javax.inject.{Singleton, Inject}
 
-object TodoRepository extends TodoSlickModel {
+@Singleton
+class TodoRepository @Inject()(
+  implicit ec: ExecutionContext
+) extends TodoSlickModel {
 
   def findAll: Future[Seq[Todo]] = DBAction { query =>
     query.sortBy(todo => todo.id.asc).result

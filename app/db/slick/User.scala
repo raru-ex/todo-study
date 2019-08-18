@@ -10,6 +10,9 @@ trait UserSlickModel extends BaseQuery[UserTable] {
   val query = new TableQuery(tag => new UserTable(tag))
 }
 
+/**
+ * UserTableの定義と紐付け
+ */
 class UserTable(_tableTag: Tag) extends Table[User](_tableTag, Some("todo"), "user") with SlickTypeMapper {
 
   def * = (id, nickname, mail, password, createdAt, updatedAt) <> (

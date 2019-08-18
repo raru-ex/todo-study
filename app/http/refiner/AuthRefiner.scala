@@ -15,7 +15,10 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 
 class UserRequest[A](user: User, request: Request[A]) extends WrappedRequest[A](request)
 
-class AuthRefiner @Inject()()(implicit ec: ExecutionContext, implicit val conf: Configuration) extends ActionRefiner[Request, UserRequest] {
+@Singleton()
+class AuthRefiner @Inject()(
+  userRepository: UserRepository
+)(implicit ec: ExecutionContext, implicit val conf: Configuration) extends ActionRefiner[Request, UserRequest] {
 
   protected def refine[A](request: Request[A]): Future[Either[Result, UserRequest[A]]] = {
 
@@ -24,7 +27,7 @@ class AuthRefiner @Inject()()(implicit ec: ExecutionContext, implicit val conf: 
         val jwt    = Jwt(jwtCookie.value)
         val userId = jwt.claim.userId
         for {
-          userOpt <- UserRepository.find(userId)
+          userOpt <- userRepository.find(userId)
         } yield {
           (jwt.isValid, userOpt) match {
             case (true, Some(user)) => Right(new UserRequest[A](user, request))

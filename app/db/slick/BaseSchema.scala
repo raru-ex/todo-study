@@ -1,6 +1,6 @@
 package net.syrup16g.todo.db.slick
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import slick.jdbc.MySQLProfile.api._
 import slick.lifted.AbstractTable
 
@@ -12,7 +12,7 @@ trait BaseQuery[E <: AbstractTable[_]] extends DbConfig {
   /** Collection-like TableQuery object for table Todo */
   val query: TableQuery[E]
 
-  def DBAction[R](f: TableQuery[E] => DBIOAction[R, NoStream, Nothing]): Future[R] = db.run(f(query))
+  def DBAction[R](f: TableQuery[E] => DBIOAction[R, NoStream, Nothing])(implicit ex: ExecutionContext): Future[R] = db.run(f(query))
 
 }
 

@@ -14,10 +14,11 @@ import play.api.Configuration
 
 @Singleton
 class TodoController @Inject()(
-  cc:   AuthedControllerComponents,
-  conf: Configuration
+  cc:             AuthedControllerComponents,
+  conf:           Configuration,
+  todoRepository: TodoRepository
 )(
-  implicit val ec: ExecutionContext
+  implicit ec: ExecutionContext
 ) extends AuthedController(cc) {
 
   /**
@@ -28,7 +29,7 @@ class TodoController @Inject()(
 
       // flatmap, map展開なので最終的にはDBのreturnに引っ張られてFuture型
       for {
-        result <- TodoRepository.findAll
+        result <- todoRepository.findAll
       } yield {
         import net.syrup16g.todo.json.writes.JsValTodo
         val jsons = result.map { todo =>
@@ -55,7 +56,7 @@ class TodoController @Inject()(
           Future.successful(BadRequest(Json.obj("status" ->"OK", "message" -> JsError.toJson(errors))))
         },
         todo => for {
-          _ <- TodoRepository.insert(Todo(None, 1L, todo.name, todo.content))
+          _ <- todoRepository.insert(Todo(None, 1L, todo.name, todo.content))
         } yield NoContent
       )
   }
@@ -70,7 +71,7 @@ class TodoController @Inject()(
         },
         jsvalTodo =>
           for {
-            _ <- TodoRepository.update(Todo(Some(id), 1L, jsvalTodo.name, jsvalTodo.content))
+            _ <- todoRepository.update(Todo(Some(id), 1L, jsvalTodo.name, jsvalTodo.content))
           } yield NoContent
       )
   }
@@ -81,7 +82,7 @@ class TodoController @Inject()(
   def delete(id: Long) = Action async {
     implicit request =>
       for {
-        _ <- TodoRepository.delete(id)
+        _ <- todoRepository.delete(id)
       } yield NoContent
   }
 
