@@ -4,6 +4,9 @@
 /dist
 /tmp
 /out-tsc
+.ivy2/
+.sbt/
+.cache/
 
 # dependencies
 node_modules/
@@ -54,3 +57,8 @@ tmp
 .bloop/
 .metals/
 package-lock.json
+
+# docker
+docker/db/mysql_data/*
+
+!.gitkeep
