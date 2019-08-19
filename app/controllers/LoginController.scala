@@ -11,8 +11,7 @@ import net.syrup16g.todo.http.auth.{Jwt, JwtSession}
 import play.api.libs.json._
 import play.api.Configuration
 import net.syrup16g.todo.http.auth.{JwtHeader, JwtClaim, JwtConverter}
-import play.filters.csrf.CSRFAddToken
-import play.filters.csrf.CSRFCheck
+import play.filters.csrf.{CSRFAddToken, CSRFCheck}
 import scala.concurrent.ExecutionContext
 
 @Singleton
