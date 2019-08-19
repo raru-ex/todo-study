@@ -1,0 +1,59 @@
+version: '3'
+services:
+  scala:
+    image: hseeberger/scala-sbt:8u212_1.2.8_2.12.9
+    container_name: todo-study-scala
+    ports:
+      - 9000:9000
+    volumes:
+      - .:/source
+      - ./.ivy2:/root/.ivy2
+      - ./.sbt:/root/.sbt
+      - ./.cache:/root/.cache
+    working_dir: /source
+    command: >
+     bash -c '
+       sbt flywayMigrate &&
+       sbt run
+     '
+    tty: true
+    depends_on:
+      - db
+    networks:
+      - app-net
+  client:
+    image: node:10.16-alpine
+    container_name: todo-study-client
+    ports:
+      - 5555:5555
+    volumes:
+      - .:/source
+    working_dir: /source/client
+    # docker内にbashが存在しない様子
+    command: >
+      sh -c '
+        yarn install &&
+        yarn start
+      '
+    tty: true
+    networks:
+      - app-net
+  db:
+    build: ./docker/db
+    ports:
+      - 3306:3306
+    container_name: todo-study-db
+    volumes:
+      # 初期データを投入するSQLが格納されているdir
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+      # 永続化するときにマウントするdir
+      - ./docker/db/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE:      todo
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
