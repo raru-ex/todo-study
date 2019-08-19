@@ -39,7 +39,7 @@ services:
     networks:
       - app-net
   db:
-    image: mysql:5.7
+    build: ./docker/db
     ports:
       - 3306:3306
     container_name: todo-study-db
