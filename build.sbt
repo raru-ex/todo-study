@@ -1,11 +1,13 @@
 name := """todo-study"""
 organization := "net.syrup16g"
-
 version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.8"
+
+// plugins
+enablePlugins(FlywayPlugin)
 
 libraryDependencies += guice
 libraryDependencies ++= Seq(
@@ -17,7 +19,6 @@ libraryDependencies ++= Seq(
   "mysql"                        % "mysql-connector-java" % "6.0.6",
   "org.springframework.security" % "spring-security-web"  % "5.1.5.RELEASE",
   "commons-codec"                % "commons-codec"        % "1.12",
-  "org.flywaydb"                %% "flyway-play"          % "5.3.2",
   "com.typesafe"                 % "config"               % "1.3.4"
 )
 
@@ -25,12 +26,17 @@ libraryDependencies ++= Seq(
 lazy val slickCodeGen = taskKey[Unit]("Execute Slick CodeGen")
 slickCodeGen := (runMain in Compile).toTask(" net.syrup16g.todo.db.codegen.SlickCodeGenerator").value
 
-// migrate
-lazy val flywayMigrate = taskKey[Unit]("Execute Flyway migrate")
-flywayMigrate := (runMain in Compile).toTask(" net.syrup16g.todo.db.migrate.FlywayMigrate").value
-
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "net.syrup16g.controllers._"
 
 // Adds additional packages into conf/routes
 // play.sbt.routes.RoutesKeys.routesImport += "net.syrup16g.binders._"
+
+// flyway-sbt settings
+flywayUrl              := "jdbc:mysql://db:3306/todo?userSSL=false"
+flywayUser             := "root"
+flywayPassword         := "root"
+flywayLocations        := Seq("filesystem:resources/db/migration")
+flywayUrl      in Test := "jdbc:mysql://db:3306/todo?userSSL=false"
+flywayUser     in Test := "root"
+flywayPassword in Test := "root"
