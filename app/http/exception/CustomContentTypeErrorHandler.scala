@@ -1,12 +1,13 @@
 package net.syrup16g.todo.http.exception
 
-import javax.inject.Inject
+import javax.inject.{Singleton, Inject}
 import play.api.http._
 
 /**
   * HtmlOrJsonHttpErrorHandlerと同じような実装
   * 渡されたMIMEに対して紐づけられたハンドラが呼び出される
   */
+@Singleton
 class CustomContentTypeErrorHandler @Inject() (
   htmlHandler: DefaultHttpErrorHandler,
   jsonHandler: JsonHttpErrorHandler,
